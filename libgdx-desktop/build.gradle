@@ -10,7 +10,7 @@ repositories {
 def gdxVersion = "1.12.1"
 
 dependencies {
-    implementation project(':app') //wheres my engine
+    implementation project(':blockengine') //wheres my engine
 
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"

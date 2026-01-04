@@ -1,6 +1,5 @@
 package com.burtsnyder.blockengine.core.rules;
 
-import java.util.EnumSet;
 import com.burtsnyder.blockengine.core.input.FrameInput;
 import java.util.EnumSet;
 

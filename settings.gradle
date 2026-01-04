@@ -1,4 +1,5 @@
-rootProject.name = 'boxrift-block-game'
-include('app')
-include('libgdx-desktop')
-project(':libgdx-desktop').projectDir = file('libgdx-desktop')
+rootProject.name = "boxrift-block-game"
+include("app")
+include("libgdx-desktop")
+include("blockengine")
+include("libgdx-desktop")
