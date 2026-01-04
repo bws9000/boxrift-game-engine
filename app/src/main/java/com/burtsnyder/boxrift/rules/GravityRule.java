@@ -3,9 +3,7 @@ package com.burtsnyder.boxrift.rules;
 import com.burtsnyder.blockengine.core.engine.GameState;
 import com.burtsnyder.blockengine.core.rules.BaseRule;
 import com.burtsnyder.blockengine.core.rules.RuleContext;
-
 import java.util.function.LongSupplier;
-
 import static com.burtsnyder.blockengine.core.rules.RuleContext.Inhibition.GRAVITY;
 
 public class GravityRule extends BaseRule {
