@@ -1,0 +1,52 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.controls', 'javafx.graphics' ]
+}
+
+
+/*application {
+    mainClass = "com.burtsnyder.boxrift.applauncher.Game"
+}*/
+application {
+    mainClass = "com.burtsnyder.boxrift.applauncher.launcher.AppLauncher"
+}
+
+
+dependencies {
+    implementation project(":blockengine")
+    implementation project(":javafx-runtime")
+    implementation project(":libgdx-desktop")
+
+    // JUnit 5
+    testImplementation platform("org.junit:junit-bom:5.10.0")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+
+    // JavaFX for tests
+    testImplementation "org.openjfx:javafx-base:21"
+    testImplementation "org.openjfx:javafx-graphics:21"
+    testImplementation "org.openjfx:javafx-controls:21"
+}
+
+run {
+    jvmArgs "-XstartOnFirstThread"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+
+

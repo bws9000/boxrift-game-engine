@@ -22,7 +22,8 @@ dependencies {
 }*/
 
 application {
-    mainClass = 'DesktopLauncher'
-    applicationDefaultJvmArgs = ['-XstartOnFirstThread'] //mac
+    mainClass = 'com.burtsnyder.boxrift.libgdx.DesktopLauncher'
+    //applicationDefaultJvmArgs = ['-XstartOnFirstThread'] // macOS (open from app launcher...
 }
+
 

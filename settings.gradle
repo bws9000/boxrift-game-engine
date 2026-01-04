@@ -1,5 +1,5 @@
 rootProject.name = "boxrift-block-game"
-include("app")
-include("libgdx-desktop")
+include("app-launcher")
 include("blockengine")
 include("libgdx-desktop")
+include ("javafx-runtime")
