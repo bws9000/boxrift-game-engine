@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+    modularity.inferModulePath = true
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+        implementation project(":blockengine")
+
+        implementation "org.openjfx:javafx-base:21"
+        implementation "org.openjfx:javafx-graphics:21"
+        implementation "org.openjfx:javafx-controls:21"
+
+
+}
+
+javafx {
+    version = "21"
+    modules = [ 'javafx.base', 'javafx.graphics', 'javafx.controls' ]
+}
+
