@@ -2,7 +2,7 @@ package com.burtsnyder.boxrift.blockengine.core.engine;
 
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
-import com.burtsnyder.boxrift.blockengine.core.rules.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.Rule;
 import com.burtsnyder.boxrift.blockengine.platform.interfaces.GameEngine;
 import java.util.ArrayList;
@@ -36,6 +36,8 @@ public class GameManager implements GameEngine {
         }
         frameCtx.reset();
     }
+
+
 
     @Override
     public void tick() {

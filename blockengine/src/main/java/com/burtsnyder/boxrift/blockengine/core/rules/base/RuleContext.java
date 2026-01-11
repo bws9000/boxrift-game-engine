@@ -1,8 +1,7 @@
-package com.burtsnyder.boxrift.blockengine.core.rules;
+package com.burtsnyder.boxrift.blockengine.core.rules.base;
 
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
 
-import java.security.Key;
 import java.util.EnumSet;
 
 

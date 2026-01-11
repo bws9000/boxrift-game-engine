@@ -1,9 +1,10 @@
+
 package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
-import com.burtsnyder.boxrift.blockengine.core.rules.BaseRule;
-import com.burtsnyder.boxrift.blockengine.core.rules.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 
 public class RotationRule extends BaseRule {
 
@@ -62,7 +63,7 @@ public class RotationRule extends BaseRule {
 
 
 
-        /*for (var kick : state.getRotationKicks()) {
+/*        for (var kick : state.getRotationKicks()) {
             var kicked = rotated.move(kick.x(), kick.y());
             if (state.isValidPosition(kicked)) {
                 state.setActivePiece(kicked);

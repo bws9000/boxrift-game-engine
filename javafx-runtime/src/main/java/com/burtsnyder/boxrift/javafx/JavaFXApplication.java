@@ -21,6 +21,7 @@ public class JavaFXApplication extends Application {
         loop.initialize(stage);
 
         var manager = loop.getManager();
+        //manager.addRule(new StopAndSpawnRule(manager.getState()));
         manager.addRule(new RotationRule(manager.getState()));
         manager.addRule(new SpawnRule(manager.getState()));
         manager.addRule(new LateralMoveRule(manager.getState()));

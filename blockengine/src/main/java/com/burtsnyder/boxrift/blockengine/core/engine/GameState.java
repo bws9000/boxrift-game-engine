@@ -2,6 +2,7 @@ package com.burtsnyder.boxrift.blockengine.core.engine;
 
 import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
+import com.burtsnyder.boxrift.blockengine.core.engine.base.AbstractGameState;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
 /*import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
@@ -9,11 +10,12 @@ import com.burtsnyder.boxrift.blockengine.util.Coord;*/
 
 import java.util.List;
 
-public class GameState {
+public class GameState extends AbstractGameState {
     private final Grid grid;
     private Boxriftle activePiece;
     private long nextPieceId = 1;
     private long nextGroupId = 1;
+
 
     public long generateNextGroupId() {
         return this.nextGroupId++;

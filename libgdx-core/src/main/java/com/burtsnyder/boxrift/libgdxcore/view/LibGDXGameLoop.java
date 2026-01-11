@@ -45,6 +45,7 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         );
 
         var manager = engine.getManager();
+        //manager.addRule(new StopAndSpawnRule(manager.getState()));
         manager.addRule(new RotationRule(manager.getState()));
         manager.addRule(new SpawnRule(manager.getState()));
         manager.addRule(new LateralMoveRule(manager.getState()));
