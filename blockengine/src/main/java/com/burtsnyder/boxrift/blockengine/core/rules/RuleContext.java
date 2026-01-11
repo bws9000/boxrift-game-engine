@@ -4,9 +4,7 @@ import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
 import java.util.EnumSet;
 
 
-/**
- *  supress a rule
- */
+
 public final class RuleContext {
     public enum Inhibition { GRAVITY }
 

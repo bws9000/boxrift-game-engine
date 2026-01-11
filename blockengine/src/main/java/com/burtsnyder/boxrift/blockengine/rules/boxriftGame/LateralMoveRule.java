@@ -1,6 +1,5 @@
-package com.burtsnyder.boxrift.blockengine.rules;
+package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
-import com.burtsnyder.boxrift.blockengine.core.actor.Actor;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
 import com.burtsnyder.boxrift.blockengine.core.rules.BaseRule;
@@ -10,6 +9,7 @@ import static com.burtsnyder.boxrift.blockengine.core.rules.RuleContext.Inhibiti
 public class LateralMoveRule extends BaseRule {
     public LateralMoveRule(GameState state) {
         super(state);
+        //System.out.println("Lateral Move Rule Initialized");
     }
 
     @Override public int priority() { return 0; }
@@ -28,18 +28,30 @@ public class LateralMoveRule extends BaseRule {
         if (movedAny) ctx.inhibit(GRAVITY);
     }
 
-    private boolean tryMove(GameState state, int dx, int dy) {
+/*    private boolean tryMove(GameState state, int dx, int dy) {
         var piece = state.getActivePiece();
         if (piece == null) return false;
         var moved = piece.move(dx, dy);
-        if (!inBounds(state, moved)) return false;   // minimal wall ceileing check
+        if (!inBounds(state, moved)) return false;
+        state.setActivePiece(moved);
+        return true;
+    }*/
+    private boolean tryMove(GameState state, int dx, int dy) {
+        var piece = state.getActivePiece();
+        if (piece == null) return false;
+
+        var moved = piece.move(dx, dy);
+
+        if (!state.isValidPosition(moved)) return false;
+
         state.setActivePiece(moved);
         return true;
     }
 
 
 
-    private boolean inBounds(GameState state, Actor actor) {
+
+    /*private boolean inBounds(GameState state, Actor actor) {
         var g = state.getGrid();
         var o = actor.getOrigin();
         for (var b : actor.getBlocks()) {
@@ -49,5 +61,5 @@ public class LateralMoveRule extends BaseRule {
             if (x < 0 || x >= g.getWidth() || y < 0 || y >= g.getHeight()) return false;
         }
         return true;
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package com.burtsnyder.boxrift.blockengine.core.engine;
 
-
 import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 
@@ -30,5 +29,40 @@ public class GameState {
 
     public Grid getGrid() {
         return grid;
+    }
+
+    public boolean isValidPosition(Boxriftle piece) {
+        if (piece == null) return false;
+
+        var grid = this.grid;
+        var origin = piece.getOrigin();
+
+        return piece.getBlocks().stream().allMatch(block -> {
+            int x = origin.x() + block.getPosition().x();
+            int y = origin.y() + block.getPosition().y();
+
+
+            if (x < 0 || x >= grid.getWidth()) return false;
+
+            if (y >= grid.getHeight()) return false;
+
+            if (y < 0) return true;
+
+            return grid.isEmpty(x, y);
+        });
+    }
+
+
+    public void lockActivePiece() {
+        var origin = activePiece.getOrigin();
+
+        activePiece.getBlocks().forEach(block -> {
+            int x = origin.x() + block.getPosition().x();
+            int y = origin.y() + block.getPosition().y();
+
+            if (grid.inBounds(x, y)) {
+                grid.placeBlock(x, y, block);
+            }
+        });
     }
 }

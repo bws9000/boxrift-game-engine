@@ -10,5 +10,5 @@ module com.burtsnyder.boxrift.blockengine {
     exports com.burtsnyder.boxrift.blockengine.core.actor;
     exports com.burtsnyder.boxrift.blockengine.config;
     exports com.burtsnyder.boxrift.blockengine.core.input.keyboard;
-    exports com.burtsnyder.boxrift.blockengine.rules;
+    exports com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 }

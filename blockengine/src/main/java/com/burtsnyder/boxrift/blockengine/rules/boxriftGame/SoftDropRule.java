@@ -1,4 +1,4 @@
-package com.burtsnyder.boxrift.blockengine.rules;
+package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.BaseRule;
@@ -9,16 +9,17 @@ import static com.burtsnyder.boxrift.blockengine.core.rules.RuleContext.Inhibiti
 public class SoftDropRule extends BaseRule {
     public SoftDropRule(GameState state) {
         super(state);
+        //System.out.println("SoftDropRule Initialized");
     }
 
-    @Override public int priority() { return 25; } // after lateral 0, before gravity  50
+    @Override public int priority() { return 25; }
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
         boolean dropped = false;
         while (ctx.input().consumeIf(a -> a == InputAction.SOFT_DOWN)) {
             if (tryDown(state)) dropped = true;
-            else break; // reached floor no more...
+            else break;
         }
         if (dropped) ctx.inhibit(GRAVITY);
     }
@@ -27,10 +28,7 @@ public class SoftDropRule extends BaseRule {
         var piece = state.getActivePiece();
         if (piece == null) return false;
         var down = piece.move(0, 1);
-
-        // todo: collision det
         if (!inBounds(state, down)) return false;
-
         state.setActivePiece(down);
         return true;
     }

@@ -1,25 +1,20 @@
-## Boxrift Engine
+# Boxrift Block Engine
 
-Modular, testable block puzzle engine inspired by Tetris.  
-Built in Java with clean architecture, JavaFX UI, and Gradle.
-For basic block style games.
+Run:
+- ./gradlew :app-launcher:run
+- ./gradlew :libgdx-desktop:run
 
-### Features
+### Goal
+Build block-based games by composing rules instead of hardcoding behavior.
 
-- Java-based game loop with testable logic
-- Rule-based system for game customization
-- Clean separation of engine and UI (JavaFX)
-- Unit-tested core logic
-- Modular Gradle project with Java modules
+### Overview
+A rules-first game engine for block-based games.
 
-### Running Tests
-```bash
-./gradlew clean test
-```
-### Build /run
-```bash
-./gradlew build
-./gradlew run
-```
+The engine provides:
+- A generic block and board model
+- A deterministic game loop
+- Modular, pluggable rules
+- Platform adapters (LibGDX, JavaFX)
 
-MIT License | © 2025 Burt Snyder
+Games are created by composing rules, not rewriting logic.
+

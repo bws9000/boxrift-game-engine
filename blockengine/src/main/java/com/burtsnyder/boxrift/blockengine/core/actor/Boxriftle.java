@@ -34,12 +34,10 @@ public class Boxriftle extends Actor {
     }
 
     public Boxriftle rotateClockwise() {
-        // todo: return new Boxriftle with rotated local blocks/orientation
         return this;
     }
 
     public Boxriftle rotateCounterClockwise() {
-        // todo: return new Boxriftle with rotated local blocks/orientation
         return this;
     }
 
