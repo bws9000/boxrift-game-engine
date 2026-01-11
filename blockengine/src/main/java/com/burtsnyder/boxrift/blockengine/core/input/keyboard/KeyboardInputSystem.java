@@ -36,7 +36,7 @@ public class KeyboardInputSystem {
 
         for (InputSignal s; (s = inputBus.poll()) != null; ) {
             switch (s.kind()) {
-                case ONE_SHOT -> out.add(s.action());
+                //case ONE_SHOT -> out.add(s.action());
                 case PRESS -> onPress(s.action(), now);
                 case RELEASE -> onRelease(s.action());
             }
@@ -64,7 +64,7 @@ public class KeyboardInputSystem {
 
     private void onPress(InputAction action, long now) {
         switch (action) {
-            case MOVE_LEFT, MOVE_RIGHT, SOFT_DOWN, ROTATE_LEFT, ROTATE_RIGHT -> {
+            case MOVE_LEFT, MOVE_RIGHT, SOFT_DOWN, MOVE_UP -> {
                 heldMove = action;
                 initialDelayDone = false;
                 firstHeldAt = now;

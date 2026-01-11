@@ -5,6 +5,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class LibGDXGame extends ApplicationAdapter {
+    private final int blockSize;
+    private final int columns;
+    private final int rows;
+    private final String gameName;
+
+    public LibGDXGame(int blockSize, int columns, int rows, String gameName) {
+        this.blockSize = blockSize;
+        this.columns = columns;
+        this.rows = rows;
+        this.gameName = gameName;
+    }
+
+    @Override
+    public void create() {
+        System.out.println("Launching " + gameName);
+        System.out.println("Grid: " + columns + "x" + rows + ", block=" + blockSize);
+    }
 
     @Override
     public void render() {

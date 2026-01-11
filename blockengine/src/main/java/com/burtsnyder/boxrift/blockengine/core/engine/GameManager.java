@@ -2,10 +2,9 @@ package com.burtsnyder.boxrift.blockengine.core.engine;
 
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
-import com.burtsnyder.boxrift.blockengine.core.rules.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.Rule;
 import com.burtsnyder.boxrift.blockengine.platform.interfaces.GameEngine;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -13,8 +12,6 @@ import java.util.List;
 public class GameManager implements GameEngine {
     private final GameState state;
     private final List<Rule> rules = new ArrayList<>();
-
-    // per-frame input + context
     private final FrameInput frameInput = new FrameInput();
     private final RuleContext frameCtx = new RuleContext(frameInput);
 
@@ -35,17 +32,19 @@ public class GameManager implements GameEngine {
 
     public void applyRules() {
         for (Rule rule : rules) {
-            rule.apply(state, frameCtx);   // ✅ pass context
+            rule.apply(state, frameCtx);
         }
-        frameCtx.reset(); // remove inhibitions...
+        frameCtx.reset();
     }
+
+
 
     @Override
     public void tick() {
         applyRules();
     }
 
-    public void applyInput(InputAction a) {
+/*    public void applyInput(InputAction a) {
         frameInput.enqueue(List.of(a));
-    }
+    }*/
 }

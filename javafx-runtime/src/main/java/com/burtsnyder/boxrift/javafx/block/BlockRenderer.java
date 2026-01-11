@@ -6,7 +6,6 @@ import javafx.scene.shape.Rectangle;
 
 
 public class BlockRenderer {
-    // todo:
     public static Rectangle render(Block block, int blockSize) {
         Rectangle rect = new Rectangle(blockSize, blockSize);
         rect.setX(block.getPosition().x() * blockSize);
@@ -15,7 +14,7 @@ public class BlockRenderer {
         return rect;
     }
 
-    // render a block at origin + offset
+
     public static Rectangle renderAt(Block block, int blockSize, int originX, int originY) {
         int gx = originX + block.getPosition().x();
         int gy = originY + block.getPosition().y();

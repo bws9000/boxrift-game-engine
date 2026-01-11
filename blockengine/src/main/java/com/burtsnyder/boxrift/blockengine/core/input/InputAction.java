@@ -6,4 +6,5 @@ public enum InputAction {
     SOFT_DOWN,
     ROTATE_LEFT,
     ROTATE_RIGHT,
+    MOVE_UP
 }

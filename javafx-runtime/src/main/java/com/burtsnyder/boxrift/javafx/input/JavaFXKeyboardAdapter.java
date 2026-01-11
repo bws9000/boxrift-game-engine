@@ -30,15 +30,14 @@ import java.util.*;
 public final class JavaFXKeyboardAdapter {
     private final InputBus inputBus;
     private final Map<KeyCode, InputAction> holdBindings;
-    private final Map<KeyCode, InputAction> oneShotBindings;
+    /*private final Map<KeyCode, InputAction> oneShotBindings;*/
     private final Set<KeyCode> pressed = new HashSet<>();
 
     public JavaFXKeyboardAdapter(InputBus inputBus,
-                                 Map<KeyCode, InputAction> holdBindings,
-                                 Map<KeyCode, InputAction> oneShotBindings) {
+                                 Map<KeyCode, InputAction> holdBindings) {
         this.inputBus = Objects.requireNonNull(inputBus);
         this.holdBindings = new HashMap<>(holdBindings);
-        this.oneShotBindings = new HashMap<>(oneShotBindings);
+/*        this.oneShotBindings = new HashMap<>(oneShotBindings);*/
     }
 
     public void attach(Scene scene, Stage stage) {
@@ -53,7 +52,7 @@ public final class JavaFXKeyboardAdapter {
             }
             InputAction a = holdBindings.get(code);
             if (a != null) { inputBus.emit(InputSignal.press(a)); return; }
-            a = oneShotBindings.get(code);
+            /*a = oneShotBindings.get(code);*/
             if (a != null) { inputBus.emit(InputSignal.oneShot(a)); }
         });
 
@@ -69,13 +68,14 @@ public final class JavaFXKeyboardAdapter {
         Map<KeyCode, InputAction> hold = Map.of(
                 KeyCode.LEFT,  InputAction.MOVE_LEFT,
                 KeyCode.RIGHT, InputAction.MOVE_RIGHT,
-                KeyCode.DOWN,  InputAction.SOFT_DOWN
+                KeyCode.DOWN,  InputAction.SOFT_DOWN,
+                KeyCode.UP, InputAction.MOVE_UP
         );
-        Map<KeyCode, InputAction> oneShot = Map.of(
+/*        Map<KeyCode, InputAction> oneShot = Map.of(
                 KeyCode.Z, InputAction.ROTATE_LEFT,
                 KeyCode.X, InputAction.ROTATE_RIGHT
-        );
-        var adapter = new JavaFXKeyboardAdapter(inputBus, hold, oneShot);
+        );*/
+        var adapter = new JavaFXKeyboardAdapter(inputBus, hold);
         adapter.attach(scene, stage);
     }
 }

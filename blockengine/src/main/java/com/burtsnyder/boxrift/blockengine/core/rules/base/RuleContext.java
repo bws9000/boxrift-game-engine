@@ -1,12 +1,11 @@
-package com.burtsnyder.boxrift.blockengine.core.rules;
+package com.burtsnyder.boxrift.blockengine.core.rules.base;
 
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
+
 import java.util.EnumSet;
 
 
-/**
- *  supress a rule
- */
+
 public final class RuleContext {
     public enum Inhibition { GRAVITY }
 
@@ -21,4 +20,5 @@ public final class RuleContext {
     public boolean isInhibited(Inhibition i) { return inhibitions.contains(i); }
 
     public void reset() { inhibitions.clear(); input.clear(); }
+
 }

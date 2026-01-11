@@ -1,10 +1,10 @@
-package com.burtsnyder.boxrift.blockengine.rules;
+package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
-import com.burtsnyder.boxrift.blockengine.core.rules.BaseRule;
-import com.burtsnyder.boxrift.blockengine.core.rules.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import java.util.function.LongSupplier;
-import static com.burtsnyder.boxrift.blockengine.core.rules.RuleContext.Inhibition.GRAVITY;
+import static com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext.Inhibition.GRAVITY;
 
 public class GravityRule extends BaseRule {
     private final LongSupplier clockNanos;
@@ -13,14 +13,13 @@ public class GravityRule extends BaseRule {
 
     public GravityRule(GameState state) {
         this(state, System::nanoTime, 1000);
+        //System.out.println("Gravity Rule Initialized");
     }
     public GravityRule(GameState state, long gravityMs) {
         this(state, System::nanoTime, gravityMs);
     }
 
-    /**
-     * @param gravityMs interval between automatic drops (milliseconds)
-     */
+
     public GravityRule(GameState state, LongSupplier clockNanos, long gravityMs) {
         super(state);
         this.clockNanos= clockNanos;
@@ -34,7 +33,7 @@ public class GravityRule extends BaseRule {
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
-        if (ctx.isInhibited(GRAVITY)) return;// gravity rule inhibited
+        if (ctx.isInhibited(GRAVITY)) return;
 
         long now = clockNanos.getAsLong();
         if (now - lastDropAt < intervalNanos) return;
@@ -44,9 +43,13 @@ public class GravityRule extends BaseRule {
 
         var down = piece.move(0, 1);
 
-        // todo: trigger lock/land behavior (....state.lockActivePiece())
+        if (state.isValidPosition(down)) {
+            state.setActivePiece(down);
+            lastDropAt = now;
+            return;
+        }
 
-        state.setActivePiece(down);
+        state.lockActivePiece();
         lastDropAt = now;
     }
 }

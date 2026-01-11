@@ -1,4 +1,4 @@
-package com.burtsnyder.boxrift.blockengine.core.rules;
+package com.burtsnyder.boxrift.blockengine.core.rules.base;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.Rule;
