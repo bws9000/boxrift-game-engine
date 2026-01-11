@@ -1,6 +1,8 @@
 package com.burtsnyder.boxrift.blockengine.core.rules;
 
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
+
+import java.security.Key;
 import java.util.EnumSet;
 
 
@@ -19,4 +21,5 @@ public final class RuleContext {
     public boolean isInhibited(Inhibition i) { return inhibitions.contains(i); }
 
     public void reset() { inhibitions.clear(); input.clear(); }
+
 }

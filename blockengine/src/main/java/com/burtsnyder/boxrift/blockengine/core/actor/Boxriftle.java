@@ -34,12 +34,37 @@ public class Boxriftle extends Actor {
     }
 
     public Boxriftle rotateClockwise() {
-        return this;
+        List<Block> rotatedBlocks = blocks.stream()
+                .map(b -> {
+                    Coord p = b.getPosition();
+                    Coord rotated = new Coord(p.y(), -p.x());
+
+                    return new Block(
+                            rotated,
+                            b.getType(),
+                            b.getColor(),
+                            b.getMetadata()
+                    );
+                })
+                .toList();
+
+        Boxriftle rotatedPiece = new Boxriftle(
+                type,
+                rotatedBlocks,
+                origin,
+                rotation
+        );
+
+        rotatedPiece.setId(this.id);
+        rotatedPiece.setGroupId(this.groupId);
+
+        return rotatedPiece;
     }
 
-    public Boxriftle rotateCounterClockwise() {
+
+/*    public Boxriftle rotateCounterClockwise() {
         return this;
-    }
+    }*/
 
     public Boxriftle withColor(BlockSetColor color) {
         List<Block> recolored = blocks.stream()

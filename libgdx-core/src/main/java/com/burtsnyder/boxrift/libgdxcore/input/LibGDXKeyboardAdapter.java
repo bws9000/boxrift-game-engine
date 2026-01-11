@@ -43,10 +43,7 @@ public final class LibGDXKeyboardAdapter extends InputAdapter {
             case Input.Keys.LEFT  -> InputAction.MOVE_LEFT;
             case Input.Keys.RIGHT -> InputAction.MOVE_RIGHT;
             case Input.Keys.DOWN  -> InputAction.SOFT_DOWN;
-
-
-            case Input.Keys.UP    -> InputAction.ROTATE_RIGHT;
-            case Input.Keys.Z     -> InputAction.ROTATE_LEFT;
+            case Input.Keys.UP    -> InputAction.MOVE_UP;
             default -> null;
         };
     }

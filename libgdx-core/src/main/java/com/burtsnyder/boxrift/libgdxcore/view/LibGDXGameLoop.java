@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.burtsnyder.boxrift.blockengine.core.engine.EngineRunner;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.GravityRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.LateralMoveRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.SoftDropRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.SpawnRule;
+import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import com.burtsnyder.boxrift.libgdxcore.input.LibGDXKeyboardAdapter;
 
 public class LibGDXGameLoop extends ApplicationAdapter {
@@ -48,6 +45,7 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         );
 
         var manager = engine.getManager();
+        manager.addRule(new RotationRule(manager.getState()));
         manager.addRule(new SpawnRule(manager.getState()));
         manager.addRule(new LateralMoveRule(manager.getState()));
         manager.addRule(new SoftDropRule(manager.getState()));

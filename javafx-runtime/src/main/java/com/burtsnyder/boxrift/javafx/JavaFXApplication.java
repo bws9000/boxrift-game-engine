@@ -1,10 +1,7 @@
 package com.burtsnyder.boxrift.javafx;
 
 import com.burtsnyder.boxrift.blockengine.config.BlockConfig;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.GravityRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.LateralMoveRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.SoftDropRule;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.SpawnRule;
+import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import com.burtsnyder.boxrift.javafx.view.JavaFXGameLoop;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,6 +21,7 @@ public class JavaFXApplication extends Application {
         loop.initialize(stage);
 
         var manager = loop.getManager();
+        manager.addRule(new RotationRule(manager.getState()));
         manager.addRule(new SpawnRule(manager.getState()));
         manager.addRule(new LateralMoveRule(manager.getState()));
         manager.addRule(new SoftDropRule(manager.getState()));
