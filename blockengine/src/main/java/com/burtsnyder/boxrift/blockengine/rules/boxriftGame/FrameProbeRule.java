@@ -5,7 +5,6 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
-import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.Rule;
 
 // for testing
 public class FrameProbeRule extends BaseRule {

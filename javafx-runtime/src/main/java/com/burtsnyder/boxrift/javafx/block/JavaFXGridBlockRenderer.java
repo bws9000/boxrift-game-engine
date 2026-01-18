@@ -3,7 +3,6 @@ package com.burtsnyder.boxrift.javafx.block;
 
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
-import com.burtsnyder.boxrift.javafx.block.BlockRenderer;
 import javafx.scene.Group;
 
 public class JavaFXGridBlockRenderer {

@@ -8,22 +8,9 @@ public abstract class AbstractGameState {
 
     protected long tick = 0;
 
-/*    public long getTick() {
-        return tick;
-    }*/
-
-/*    private long lastPlayerIntentTick = -1;*/
     private boolean structureDirty = false;
 
-/*
-    public void markPlayerIntentThisTick() {
-        lastPlayerIntentTick = tick;
-    }
 
-    public long lastPlayerIntentTick() {
-        return lastPlayerIntentTick;
-    }
-*/
 
 
 
@@ -53,29 +40,7 @@ public abstract class AbstractGameState {
                 ? activePiece.getOrigin()
                 : null;
     }
-    /*
-    public void beginTickInternal(Boxriftle activePiece) {
-        movedThisTick = false;
-        downwardBlockedThisTick = false;
 
-        originAtTickStart = activePiece != null
-                ? activePiece.getOrigin()
-                : null;
-    }*/
-
-    public void notifyPieceMovedInternal() {
-        movedThisTick = true;
-    }
-
-    //tick queries
-    public boolean didPieceMove() {
-        return movedThisTick;
-    }
-
-    public boolean originUnchanged() {
-        if (activePiece == null || originAtTickStart == null) return false;
-        return activePiece.getOrigin().equals(originAtTickStart);
-    }
 
     public boolean canMoveActive(int dx, int dy) {
         if (activePiece == null) return false;
@@ -86,11 +51,7 @@ public abstract class AbstractGameState {
         return grid.canPlace(piece);
     }
 
-/*    public boolean canRotateActive() {
-        if (activePiece == null) return false;
-        //return grid.canPlace(activePiece.rotate());
-        return true;
-    }*/
+
 
     public Coord getDefaultSpawnOrigin() {
         int spawnX = (grid.getWidth() / 2) - 1;
@@ -98,11 +59,6 @@ public abstract class AbstractGameState {
         return new Coord(spawnX, spawnY);
     }
 
-
-/*    public boolean canSpawn(Boxriftle piece) {
-        //return grid.canPlace(piece);
-        return false;
-    }*/
 
 
 
@@ -115,9 +71,6 @@ public abstract class AbstractGameState {
         this.activePiece = piece;
     }
 
-    public void markPlayerMovedThisTick() {
-        movedThisTick = true;
-    }
 
 
     public void clearActivePiece() {

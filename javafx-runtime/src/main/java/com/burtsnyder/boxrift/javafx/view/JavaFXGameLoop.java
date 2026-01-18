@@ -61,12 +61,6 @@ public class JavaFXGameLoop extends GameLoop {
                         blockSize
                 );
 
-                /*JavaFXGridRenderer.render(
-                        manager.getState().getGrid(),
-                        lockedLayer,
-                        blockSize
-                );*/
-
 
                 updateView();
             }

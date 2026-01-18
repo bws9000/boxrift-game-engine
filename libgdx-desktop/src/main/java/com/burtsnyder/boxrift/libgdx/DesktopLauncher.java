@@ -38,15 +38,7 @@ public class DesktopLauncher {
         );
 
 
-        /*new Lwjgl3Application(
-                new LibGDXGame(
-                        BlockConfig.BLOCK_SIZE,
-                        BlockConfig.GRID_COLUMNS,
-                        BlockConfig.GRID_ROWS,
-                        BlockConfig.GAME_NAME
-                ),
-                config
-        );*/
+
     }
 }
 

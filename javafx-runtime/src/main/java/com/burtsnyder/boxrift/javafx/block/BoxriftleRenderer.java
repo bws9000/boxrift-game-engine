@@ -14,22 +14,12 @@ public class BoxriftleRenderer {
             int gx = o.x() + block.position().x();
             int gy = o.y() + block.position().y();
 
-            // javaFX coordinate inversion
-            //int invertedY = (gridRows - 1) - gy;
 
             //reversed compared to libgdx
             group.getChildren().add(
                     BlockRenderer.renderAt(block, blockSize, gx, gy)
             );
 
-            /*group.getChildren().add(
-                    BlockRenderer.renderAt(
-                            block,
-                            blockSize,
-                            gx,
-                            invertedY
-                    )
-            );*/
         }
         return group;
     }

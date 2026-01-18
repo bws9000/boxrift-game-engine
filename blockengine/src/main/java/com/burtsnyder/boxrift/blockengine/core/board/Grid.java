@@ -75,16 +75,4 @@ public class Grid {
     }
 
 
-
-/*    public boolean canPlace(Boxriftle piece) {
-        for (Block b : piece.getBlocks()) {
-            Coord c = piece.getWorldCoord(b);
-            if (!isInside(c) || isOccupied(c)) {
-                return false;
-            }
-        }
-        return true;
-    }*/
-
-
 }

@@ -26,22 +26,7 @@ public final class EngineRunner {
         return manager;
     }
 
-/*    private long lastTickAt = 0;
-    private static final long TICK_NANOS = 500_000_000L; // 0.5s*/
 
-    /*public void step(long now) {
-        if (now - lastTickAt >= TICK_NANOS) {
-            var actions = keyboard.update(now);
-            manager.enqueueActions(actions);
-            manager.tick();
-
-            if (renderer != null) {
-                renderer.render(manager.getState());
-                lastTickAt = now;
-            }
-
-        }
-    }*/
     public void step(long now) {
         var actions = keyboard.update(now);
         manager.enqueueActions(actions);

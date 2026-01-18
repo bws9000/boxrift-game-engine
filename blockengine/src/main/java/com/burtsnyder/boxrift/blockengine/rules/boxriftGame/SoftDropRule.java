@@ -3,7 +3,6 @@ package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.AbstractPlayerIntentMovementRule;
-import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
@@ -17,7 +16,6 @@ public class SoftDropRule extends AbstractPlayerIntentMovementRule {
 
     public SoftDropRule(GameState state) {
         super(state);
-        //System.out.println("SoftDropRule Initialized");
     }
 
     @Override public int priority() { return 25; }
@@ -48,24 +46,4 @@ public class SoftDropRule extends AbstractPlayerIntentMovementRule {
 
     }
 
-
-    /*private boolean tryDown(GameState state) {
-        var piece = state.getActivePiece();
-        if (piece == null) return false;
-        var down = piece.move(0, 1);
-        if (!inBounds(state, down)) return false;
-        state.setActivePiece(down);
-        return true;
-    }
-
-    private boolean inBounds(GameState state, com.burtsnyder.boxrift.blockengine.core.actor.Actor actor) {
-        var g = state.getGrid();
-        var o = actor.getOrigin();
-        for (var b : actor.getBlocks()) {
-            var p = b.getPosition();
-            int x = o.x() + p.x(), y = o.y() + p.y();
-            if (x < 0 || x >= g.getWidth() || y < 0 || y >= g.getHeight()) return false;
-        }
-        return true;
-    }*/
 }

@@ -1,7 +1,6 @@
 package com.burtsnyder.boxrift.javafx.block;
 
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
@@ -18,14 +17,6 @@ public class BlockRenderer {
         return rect;
     }
 
-/*    public static Rectangle renderColored(
-            int gridX,
-            int gridY,
-            int blockSize,
-            Block block
-    ) {
-        return renderAt(block, blockSize, gridX, gridY);
-    }*/
 
     public static Rectangle renderAt(
             Block block,

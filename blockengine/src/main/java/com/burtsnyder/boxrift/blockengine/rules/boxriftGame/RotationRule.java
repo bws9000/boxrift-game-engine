@@ -26,7 +26,6 @@ public class RotationRule extends AbstractPlayerIntentMovementRule {
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
-        //if (state.isDownwardBlockedThisTick()) return;
 
 
         boolean rotate =

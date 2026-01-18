@@ -20,7 +20,7 @@ public class LateralMoveRule extends AbstractPlayerIntentMovementRule {
 
     @Override
     public int priority() {
-        return 0; // earliestplayer intent first
+        return 0;
     }
 
     @Override
@@ -52,11 +52,7 @@ public class LateralMoveRule extends AbstractPlayerIntentMovementRule {
         }
     }
 
-    /*private boolean tryMove(GameState state, int dx, int dy) {
-        if (!state.canMoveActive(dx, dy)) return false;
-        state.setActivePiece(state.getActivePiece().move(dx, dy));
-        return true;
-    }*/
+
     private boolean tryMove(GameState state, int dx) {
 
         var p = state.getActivePiece();
