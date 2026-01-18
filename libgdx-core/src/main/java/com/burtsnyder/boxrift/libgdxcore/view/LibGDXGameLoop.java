@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.engine.EngineRunner;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
 import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
@@ -15,7 +16,6 @@ public class LibGDXGameLoop extends ApplicationAdapter {
     private final int col;
     private final int row;
     private final InputBus inputBus;
-    private ShapeRenderer debug;
     private EngineRunner engine;
     private LibGDXBoxriftleRenderer pieceRenderer;
 
@@ -23,7 +23,8 @@ public class LibGDXGameLoop extends ApplicationAdapter {
             int blockSize,
             int col,
             int row,
-            InputBus inputBus
+            InputBus inputBus,
+            Grid grid
     ) {
         this.blockSize = blockSize;
         this.col = col;
@@ -33,7 +34,7 @@ public class LibGDXGameLoop extends ApplicationAdapter {
 
     @Override
     public void create() {
-        debug = new ShapeRenderer();
+/*        ShapeRenderer debug = new ShapeRenderer();*/
         pieceRenderer = new LibGDXBoxriftleRenderer(blockSize);
 
         engine = new EngineRunner(
@@ -44,13 +45,29 @@ public class LibGDXGameLoop extends ApplicationAdapter {
                 pieceRenderer
         );
 
+
+
         var manager = engine.getManager();
-        //manager.addRule(new StopAndSpawnRule(manager.getState()));
-        manager.addRule(new RotationRule(manager.getState()));
-        manager.addRule(new SpawnRule(manager.getState()));
-        manager.addRule(new LateralMoveRule(manager.getState()));
-        manager.addRule(new SoftDropRule(manager.getState()));
-        manager.addRule(new GravityRule(manager.getState()));
+        var scheduler = manager.getScheduler();
+
+        // SENSE
+        scheduler.addRule(new GroundSenseRule(manager.getState()));
+
+        // INTENT
+        scheduler.addRule(new RotationRule(manager.getState()));
+        scheduler.addRule(new LateralMoveRule(manager.getState()));
+        scheduler.addRule(new SoftDropRule(manager.getState()));
+
+        // SIMULATION
+        scheduler.addRule(new GravityRule(manager.getState()));
+
+        // RESOLUTION
+        scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
+/*        scheduler.addRule(new FinalizeBeforeSpawnRule(manager.getState()));*/
+        scheduler.addRule(new SpawnRule(manager.getState()));
+        scheduler.addRule(new RowClearRule(manager.getState()));
+        scheduler.addRule(new CollapseRule(manager.getState()));
+
 
 
         LibGDXGridRenderer.init(

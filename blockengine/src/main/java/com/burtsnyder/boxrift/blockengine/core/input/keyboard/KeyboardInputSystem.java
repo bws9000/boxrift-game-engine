@@ -24,12 +24,6 @@ public class KeyboardInputSystem {
     /**
      * Processes pending {@link InputSignal}s and applies DAS/ARR timing
      * to generate the actions for this frame.
-     * <p>
-     * - ONE_SHOT -- fire immediately
-     * - PRESS/RELEASE -- track holdable actions
-     * - Held action  --> fire once, then repeat after DAS delay and every ARR interval
-     * @param now current time nanoseconds
-     * @return actions to execute for this frame
      */
     public List<InputAction> update(long now) {
         List<InputAction> out = new ArrayList<>();

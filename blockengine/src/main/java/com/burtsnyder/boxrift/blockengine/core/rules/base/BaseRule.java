@@ -4,6 +4,7 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.Rule;
 
 public abstract class BaseRule implements Rule {
+    public abstract RuleDomainEnum domain();
     protected final GameState state;
     protected final RuleContext ruleContext;
 

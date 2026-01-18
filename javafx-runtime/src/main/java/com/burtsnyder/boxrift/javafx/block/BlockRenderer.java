@@ -6,34 +6,49 @@ import javafx.scene.shape.Rectangle;
 
 
 public class BlockRenderer {
-    public static Rectangle render(Block block, int blockSize) {
+
+    public static Rectangle renderGridCell(
+            int gridX,
+            int gridY,
+            int blockSize
+    ) {
         Rectangle rect = new Rectangle(blockSize, blockSize);
-        rect.setX(block.getPosition().x() * blockSize);
-        rect.setY(block.getPosition().y() * blockSize);
+        rect.setX(gridX * blockSize);
+        rect.setY(gridY * blockSize);
+        return rect;
+    }
+
+/*    public static Rectangle renderColored(
+            int gridX,
+            int gridY,
+            int blockSize,
+            Block block
+    ) {
+        return renderAt(block, blockSize, gridX, gridY);
+    }*/
+
+    public static Rectangle renderAt(
+            Block block,
+            int blockSize,
+            int gridX,
+            int gridY
+    ) {
+        Rectangle rect = renderGridCell(gridX, gridY, blockSize);
         applyColor(rect, block);
         return rect;
     }
 
-
-    public static Rectangle renderAt(Block block, int blockSize, int originX, int originY) {
-        int gx = originX + block.getPosition().x();
-        int gy = originY + block.getPosition().y();
-        Rectangle rect = new Rectangle(blockSize, blockSize);
-        rect.setX(gx * blockSize);
-        rect.setY(gy * blockSize);
-        applyColor(rect, block);
-        return rect;
-    }
 
     private static void applyColor(Rectangle rect, Block block) {
-        switch (block.getColor()) {
-            case CYAN -> rect.setFill(Color.CYAN);
-            case YELLOW -> rect.setFill(Color.YELLOW);
-            case PURPLE -> rect.setFill(Color.PURPLE);
-            case GREEN -> rect.setFill(Color.GREEN);
-            case ORANGE -> rect.setFill(Color.ORANGE);
-            case BLUE -> rect.setFill(Color.BLUE);
-            case RED -> rect.setFill(Color.RED);
+        switch (block.color()) {
+            case CYAN -> rect.setFill(javafx.scene.paint.Color.CYAN);
+            case YELLOW -> rect.setFill(javafx.scene.paint.Color.YELLOW);
+            case PURPLE -> rect.setFill(javafx.scene.paint.Color.PURPLE);
+            case GREEN -> rect.setFill(javafx.scene.paint.Color.GREEN);
+            case ORANGE -> rect.setFill(javafx.scene.paint.Color.ORANGE);
+            case BLUE -> rect.setFill(javafx.scene.paint.Color.BLUE);
+            case RED -> rect.setFill(javafx.scene.paint.Color.RED);
         }
     }
 }
+

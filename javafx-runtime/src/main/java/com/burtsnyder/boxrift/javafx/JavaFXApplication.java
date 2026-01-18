@@ -5,6 +5,9 @@ import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import com.burtsnyder.boxrift.javafx.view.JavaFXGameLoop;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
+import javafx.scene.Group;
+import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 
 public class JavaFXApplication extends Application {
 
@@ -18,15 +21,21 @@ public class JavaFXApplication extends Application {
                 BlockConfig.GAME_NAME
         );
 
-        loop.initialize(stage);
+        Group root = new Group();
+        loop.attach(stage, root);
 
         var manager = loop.getManager();
-        //manager.addRule(new StopAndSpawnRule(manager.getState()));
-        manager.addRule(new RotationRule(manager.getState()));
-        manager.addRule(new SpawnRule(manager.getState()));
-        manager.addRule(new LateralMoveRule(manager.getState()));
-        manager.addRule(new SoftDropRule(manager.getState()));
-        manager.addRule(new GravityRule(manager.getState()));
+        var scheduler = manager.getScheduler();
+        scheduler.addRule(new GroundSenseRule(manager.getState()));
+        scheduler.addRule(new RotationRule(manager.getState()));
+        scheduler.addRule(new LateralMoveRule(manager.getState()));
+        scheduler.addRule(new SoftDropRule(manager.getState()));
+        scheduler.addRule(new GravityRule(manager.getState()));
+        scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
+        scheduler.addRule(new SpawnRule(manager.getState()));
+        scheduler.addRule(new RowClearRule(manager.getState()));
+        scheduler.addRule(new CollapseRule(manager.getState()));
+
 
         loop.setRenderer(
                 new JavaFXBoxriftleRenderer(
@@ -35,10 +44,8 @@ public class JavaFXApplication extends Application {
                 )
         );
 
-
         loop.start();
     }
-
 }
 
 

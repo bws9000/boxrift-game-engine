@@ -1,10 +1,12 @@
 package com.burtsnyder.boxrift.javafx.view;
 
+import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameLoop;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
 import com.burtsnyder.boxrift.blockengine.core.input.MinimalInputBus;
 import com.burtsnyder.boxrift.blockengine.core.input.keyboard.KeyboardInputSystem;
 import com.burtsnyder.boxrift.javafx.JavaFXGridRenderer;
+import com.burtsnyder.boxrift.javafx.block.JavaFXGridBlockRenderer;
 import com.burtsnyder.boxrift.javafx.input.JavaFXKeyboardAdapter;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -16,16 +18,18 @@ public class JavaFXGameLoop extends GameLoop {
     private final InputBus inputBus;
     private final KeyboardInputSystem keyboard;
 
-    private final int blockSize;
-    private final int col;
-    private final int row;
-    private final String gameName;
-
+    private Group lockedLayer;
     private Group pieceLayer;
-    private AnimationTimer timer;
 
     public JavaFXGameLoop(int blockSize, int col, int row, String gameName) {
-        this(blockSize, col, row, gameName, new MinimalInputBus());
+        this(
+                blockSize,
+                col,
+                row,
+                gameName,
+                new MinimalInputBus(),
+                new Grid(col, row)
+        );
     }
 
     public JavaFXGameLoop(
@@ -33,24 +37,53 @@ public class JavaFXGameLoop extends GameLoop {
             int col,
             int row,
             String gameName,
-            InputBus inputBus
+            InputBus inputBus,
+            Grid grid
     ) {
-        super(blockSize, col, row, inputBus);
-        this.blockSize = blockSize;
-        this.col = col;
-        this.row = row;
-        this.gameName = gameName;
+        super(blockSize, col, row, inputBus, grid);
         this.inputBus = inputBus;
         this.keyboard = new KeyboardInputSystem(inputBus, 170, 40);
     }
 
-    public void initialize(Stage stage) {
-        Group root = new Group();
+    @Override
+    public void start() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                var actions = keyboard.update(now);
+                manager.enqueueActions(actions);
+                manager.tick();
+
+
+                JavaFXGridBlockRenderer.render(
+                        manager.getState().getGrid(),
+                        lockedLayer,
+                        blockSize
+                );
+
+                /*JavaFXGridRenderer.render(
+                        manager.getState().getGrid(),
+                        lockedLayer,
+                        blockSize
+                );*/
+
+
+                updateView();
+            }
+        };
+        timer.start();
+    }
+
+    public void attach(Stage stage, Group root) {
         Group gridLayer = new Group();
+        lockedLayer = new Group();
         pieceLayer = new Group();
 
-        root.getChildren().addAll(gridLayer, pieceLayer);
-
+        root.getChildren().addAll(
+                gridLayer,
+                lockedLayer,
+                pieceLayer
+        );
         JavaFXGridRenderer.render(
                 manager.getState().getGrid(),
                 gridLayer,
@@ -64,33 +97,15 @@ public class JavaFXGameLoop extends GameLoop {
         );
 
         JavaFXKeyboardAdapter.attachDefault(scene, stage, inputBus);
-
-        stage.setTitle(gameName);
         stage.setScene(scene);
         stage.show();
-
         scene.getRoot().requestFocus();
     }
-
-
-    @Override
-    public void start() {
-        timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                var actions = keyboard.update(now);
-                manager.enqueueActions(actions);
-                manager.tick();
-                updateView();
-            }
-        };
-        timer.start();
-    }
-
 
     public Group getPieceLayer() {
         return pieceLayer;
     }
 }
+
 
 

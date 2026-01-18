@@ -12,11 +12,6 @@ public final class FrameInput {
         for (var a : actions) queue.addLast(a);
     }
 
-    public InputAction poll() {
-        return queue.pollFirst();
-    }
-
-
 
     public boolean consumeIf(Predicate<InputAction> p) {
         for (Iterator<InputAction> it = queue.iterator(); it.hasNext();) {

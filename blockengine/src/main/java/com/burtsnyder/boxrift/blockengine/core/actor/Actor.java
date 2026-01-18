@@ -16,16 +16,8 @@ public abstract class Actor {
         this.id = id;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
-    }
-
-    public Long getGroupId() {
-        return groupId;
     }
 
     public Actor(Coord origin, List<Block> blocks) {

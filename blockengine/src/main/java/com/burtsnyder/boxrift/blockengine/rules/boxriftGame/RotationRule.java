@@ -1,12 +1,19 @@
 
 package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
+import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
-import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.AbstractPlayerIntentMovementRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
 
-public class RotationRule extends BaseRule {
+public class RotationRule extends AbstractPlayerIntentMovementRule {
+
+    @Override
+    public RuleDomainEnum domain() {
+        return RuleDomainEnum.INTENT;
+    }
 
     public RotationRule(GameState state) {
         super(state);
@@ -19,61 +26,55 @@ public class RotationRule extends BaseRule {
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
+        //if (state.isDownwardBlockedThisTick()) return;
+
 
         boolean rotate =
                 ctx.input().consumeIf(a -> a == InputAction.MOVE_UP);
 
         if (!rotate) return;
-        //System.out.println("*RotationRule** MOVE_UP detected ->rotate clockwise");
 
         var active = state.getActivePiece();
         if (active == null) return;
 
-/*        System.out.println("before rotate ");
-        active.getBlocks().forEach(b ->
-                System.out.println("  " + b.getPosition())
-        );*/
-
-        var rotated = active.rotateClockwise();
-
-/*        System.out.println("after rotate ");
-        rotated.getBlocks().forEach(b ->
-                System.out.println("  " + b.getPosition())
-        );*/
-
+        if(active.getType().equals(BlockSetType.O)) return;
 
         ctx.inhibit(RuleContext.Inhibition.GRAVITY);
 
-        if (state.isValidPosition(rotated)) {
+        // base  rotation
+        var rotated = active.rotateClockwise();
+
+        if (state.canSpawn(rotated)) {
             state.setActivePiece(rotated);
             return;
         }
 
+        // kick tests
+        var kicks = new int[][] {
+                { 1, 0 },
+                { -1, 0 },
+                { 0, -1 }
+        };
 
-        for (var offset : state.getRotationMoves()) {
-            var rotatedRight = rotated.move(offset.x(), offset.y());
-            if (state.isValidPosition(rotatedRight)) {
-                state.setActivePiece(rotatedRight);
+        for (var k : kicks) {
+            var kicked = rotated.move(k[0], k[1]);
+            if (state.canSpawn(kicked)) {
+                state.setActivePiece(kicked);
                 return;
             }
         }
 
-
-
-
-
-
-/*        for (var kick : state.getRotationKicks()) {
-            var kicked = rotated.move(kick.x(), kick.y());
-            if (state.isValidPosition(kicked)) {
-                state.setActivePiece(kicked);
-                return;
-            }
-        }*/
-
-
-
-        // ...
+        // rotation failed
     }
 
+    @Override
+    public long lastIntentTick() {
+        return 0;
+    }
+
+    @Override
+    public void onPlayerIntent(GameState state) {
+
+    }
 }
+
