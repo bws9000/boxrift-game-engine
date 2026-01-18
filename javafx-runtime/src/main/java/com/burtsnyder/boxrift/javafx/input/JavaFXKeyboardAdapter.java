@@ -9,23 +9,7 @@ import java.util.*;
 
 /**
  * Maps JavaFX {@link KeyCode} events to engine-level {@link InputSignal}s
- * and delivers them to an {@link InputBus}.
- * <p>
- * Acts as a thin UI adapter: no game logic or auto-repeat and delayed shift timing (handled by
- * {@link com.burtsnyder.blockengine.core.input.keyboard.KeyboardInputSystem}).
- * <p>
- * <ul>
- *   <li>Bind key presses/releases to {@link InputAction}s.</li>
- *   <li>Emit {@code PRESS}, {@code RELEASE}, or {@code ONE_SHOT} signals.</li>
- *   <li>Filter OS key repeats (only one PRESS per physical press).</li>
- *   <li>Clear pressed state when {@link Stage} loses focus.</li>
- * </ul>
- * <p>
- * Use {@link #attachDefault(Scene, Stage, InputBus)} for default bindings:
- * <ul>
- *   <li>left/Right/Down → HOLD actions</li>
- *   <li>Z/X → ONE_SHOT rotate actions</li>
- * </ul>
+ * and delivers them to an {@link InputBus}
  */
 public final class JavaFXKeyboardAdapter {
     private final InputBus inputBus;

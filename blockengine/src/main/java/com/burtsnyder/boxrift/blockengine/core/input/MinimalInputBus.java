@@ -3,11 +3,7 @@ package com.burtsnyder.boxrift.blockengine.core.input;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * A thread-safe implementation of {@link InputBus} that stores incoming
- * {@link InputSignal} events in a non-blocking queue.
- * <p>
- * Suitable for use in multithreaded environments, such as a agame loop
- * receiving input from another thread.
+ * A thread-safe implementation of {@link InputBus}
  */
 public class MinimalInputBus implements InputBus {
     /** // thread-safe queue for passing input signals between threads */

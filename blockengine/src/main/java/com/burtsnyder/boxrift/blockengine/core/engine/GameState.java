@@ -1,63 +1,33 @@
+
 package com.burtsnyder.boxrift.blockengine.core.engine;
 
-import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.engine.base.AbstractGameState;
+import com.burtsnyder.boxrift.blockengine.core.engine.state.gates.LockGate;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
-/*import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
-import com.burtsnyder.boxrift.blockengine.core.board.Grid;
-import com.burtsnyder.boxrift.blockengine.util.Coord;*/
 
 import java.util.List;
 
 public class GameState extends AbstractGameState {
-    private final Grid grid;
-    private Boxriftle activePiece;
+
+    private boolean gameOver = false;
+    private final LockGate lockGate;
+
     private long nextPieceId = 1;
     private long nextGroupId = 1;
 
+    public GameState(int col, int row) {
+        super(new Grid(col, row));
+        this.lockGate = new LockGate(500); // delay time
+    }
 
     public long generateNextGroupId() {
-        return this.nextGroupId++;
+        return nextGroupId++;
     }
 
     public long generateNextPieceId() {
         return nextPieceId++;
     }
-
-    public GameState(int col, int row) {
-        this.grid = new Grid(col, row);
-    }
-
-    public void setActivePiece(Boxriftle piece) {
-        this.activePiece = piece;
-    }
-
-    public Boxriftle getActivePiece() {
-        return activePiece;
-    }
-
-    public Grid getGrid() {
-        return grid;
-    }
-
-    public boolean isValidPosition(Boxriftle piece) {
-        if (piece == null) return false;
-
-        var origin = piece.getOrigin();
-
-        return piece.getBlocks().stream().allMatch(block -> {
-            int x = origin.x() + block.getPosition().x();
-            int y = origin.y() + block.getPosition().y();
-
-            if (x < 0 || x >= grid.getWidth()) return false;
-            if (y >= grid.getHeight()) return false;
-            if (y < 0) return true;
-
-            return grid.isEmpty(x, y);
-        });
-    }
-
 
     public List<Coord> getRotationMoves() {
         return List.of(
@@ -68,17 +38,55 @@ public class GameState extends AbstractGameState {
         );
     }
 
-    public void lockActivePiece() {
+
+    public void markPlayerIntentThisTick() {
+        movedThisTick = true;
+        lockGate.reset();
+    }
+
+
+    public void lockActivePieceAndDisassemble() {
+
+        //delay locking
+        lockGate.arm();
+        if (!lockGate.isOpen()) {
+            return;
+        }
+        lockGate.reset();
+        if (activePiece == null) {
+            throw new IllegalStateException(
+                    "lockActivePieceAndDisassemble called with null activePiece "
+            );
+        }
+
+
+
         var origin = activePiece.getOrigin();
-
         activePiece.getBlocks().forEach(block -> {
-            int x = origin.x() + block.getPosition().x();
-            int y = origin.y() + block.getPosition().y();
-
+            int x = origin.x() + block.position().x();
+            int y = origin.y() + block.position().y();
             if (grid.inBounds(x, y)) {
                 grid.placeBlock(x, y, block);
             }
         });
+
+        clearActivePiece();
+    }
+
+    public boolean canMoveHorizontally(int dx) {
+        var piece = getActivePiece();
+        if (piece == null) return false;
+
+        var moved = piece.move(dx, 0);
+        return grid.canPlace(moved);
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+    public void setGameOver() {
+        System.out.println("Game over ");//🕹️implement a Dialog(libGDX) or do Javafx version voila
+        this.gameOver = true;
     }
 }
 

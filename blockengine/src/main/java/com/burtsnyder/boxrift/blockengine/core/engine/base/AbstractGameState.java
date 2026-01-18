@@ -1,30 +1,98 @@
 package com.burtsnyder.boxrift.blockengine.core.engine.base;
 
 import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
+import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
 
 public abstract class AbstractGameState {
+
+    protected long tick = 0;
+
+    private boolean structureDirty = false;
+
+
+
+
+
+    protected final Grid grid;
+    protected Boxriftle activePiece;
     protected Coord originAtTickStart;
     protected boolean movedThisTick;
 
-    protected void beginTickInternal(Boxriftle activePiece) {
+
+    public Grid getGrid() {
+        return grid;
+    }
+
+    // gravity result for this tick
+    protected boolean downwardBlockedThisTick;
+
+    protected AbstractGameState(Grid grid) {
+        this.grid = grid;
+    }
+
+
+    public void beginTickInternal(Boxriftle activePiece) {
+        tick++;
         movedThisTick = false;
+        downwardBlockedThisTick = false;
         originAtTickStart = activePiece != null
                 ? activePiece.getOrigin()
                 : null;
     }
 
-    protected void notifyPieceMovedInternal() {
-        movedThisTick = true;
+
+    public boolean canMoveActive(int dx, int dy) {
+        if (activePiece == null) return false;
+        return grid.canPlace(activePiece.move(dx, dy));
     }
 
-    public boolean didPieceMove() {
-        return movedThisTick;
+    public boolean canSpawn(Boxriftle piece) {
+        return grid.canPlace(piece);
     }
 
-    public boolean originUnchanged(Boxriftle activePiece) {
-        if (activePiece == null || originAtTickStart == null) return false;
-        return activePiece.getOrigin().equals(originAtTickStart);
+
+
+    public Coord getDefaultSpawnOrigin() {
+        int spawnX = (grid.getWidth() / 2) - 1;
+        int spawnY = -2;
+        return new Coord(spawnX, spawnY);
     }
+
+
+
+
+    //active pieces
+    public Boxriftle getActivePiece() {
+        return activePiece;
+    }
+
+    public void setActivePiece(Boxriftle piece) {
+        this.activePiece = piece;
+    }
+
+
+
+    public void clearActivePiece() {
+        this.activePiece = null;
+    }
+
+
+
+
+
+    public void markStructureDirty() {
+        structureDirty = true;
+    }
+
+    public boolean isStructureDirty() {
+        return structureDirty;
+    }
+
+    public void clearStructureDirty() {
+        structureDirty = false;
+    }
+
 }
+
 

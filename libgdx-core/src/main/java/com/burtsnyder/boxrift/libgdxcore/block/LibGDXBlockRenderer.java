@@ -4,7 +4,6 @@ package com.burtsnyder.boxrift.libgdxcore.block;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
-import com.burtsnyder.boxrift.blockengine.core.block.BlockSetColor;
 
 public final class LibGDXBlockRenderer {
 
@@ -17,8 +16,8 @@ public final class LibGDXBlockRenderer {
     ) {
         renderer.setColor(mapColor(block));
         renderer.rect(
-                block.getPosition().x() * blockSize,
-                block.getPosition().y() * blockSize,
+                block.position().x() * blockSize,
+                block.position().y() * blockSize,
                 blockSize,
                 blockSize
         );
@@ -32,8 +31,8 @@ public final class LibGDXBlockRenderer {
             int originX,
             int originY
     ) {
-        int gx = originX + block.getPosition().x();
-        int gy = originY + block.getPosition().y();
+        int gx = originX + block.position().x();
+        int gy = originY + block.position().y();
 
         renderer.setColor(mapColor(block));
         renderer.rect(
@@ -46,7 +45,7 @@ public final class LibGDXBlockRenderer {
 
 
     private static Color mapColor(Block block) {
-        return switch (block.getColor()) {
+        return switch (block.color()) {
             case CYAN   -> Color.CYAN;
             case YELLOW -> Color.YELLOW;
             case PURPLE -> Color.PURPLE;

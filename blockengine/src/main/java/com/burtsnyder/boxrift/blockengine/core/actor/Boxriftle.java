@@ -1,7 +1,6 @@
 package com.burtsnyder.boxrift.blockengine.core.actor;
 
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
-import com.burtsnyder.boxrift.blockengine.core.block.BlockSetColor;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 import com.burtsnyder.boxrift.blockengine.core.types.Rotation;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
@@ -11,6 +10,22 @@ import java.util.List;
 public class Boxriftle extends Actor {
     private final BlockSetType type;
     private final Rotation rotation;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Boxriftle other)) return false;
+
+        return origin.equals(other.origin)
+                && rotation == other.rotation
+                && type == other.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(origin, rotation, type);
+    }
+
 
     public Boxriftle(BlockSetType type,
                      List<Block> blocks,
@@ -36,13 +51,13 @@ public class Boxriftle extends Actor {
     public Boxriftle rotateClockwise() {
         List<Block> rotatedBlocks = blocks.stream()
                 .map(b -> {
-                    Coord p = b.getPosition();
+                    Coord p = b.position();
                     Coord rotated = new Coord(p.y(), -p.x());
 
                     return new Block(
                             rotated,
-                            b.getType(),
-                            b.getColor(),
+                            b.type(),
+                            b.color(),
                             b.getMetadata()
                     );
                 })
@@ -61,18 +76,4 @@ public class Boxriftle extends Actor {
         return rotatedPiece;
     }
 
-
-/*    public Boxriftle rotateCounterClockwise() {
-        return this;
-    }*/
-
-    public Boxriftle withColor(BlockSetColor color) {
-        List<Block> recolored = blocks.stream()
-                .map(b -> new Block(b.getPosition(), b.getType(), color))
-                .toList();
-        Boxriftle copy = new Boxriftle(type, recolored, origin, rotation);
-        copy.setId(this.id);
-        copy.setGroupId(this.groupId);
-        return copy;
-    }
 }

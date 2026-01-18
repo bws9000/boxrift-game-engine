@@ -5,6 +5,7 @@ import com.burtsnyder.boxrift.blockengine.core.actor.BoxriftleFactory;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 
@@ -14,40 +15,43 @@ public class SpawnRule extends BaseRule {
 
     private final Random random = new Random();
 
+    @Override
+    public RuleDomainEnum domain() {
+        return RuleDomainEnum.RESOLUTION;
+    }
+
     public SpawnRule(GameState state) {
         super(state);
-        //System.out.println("Spawn Rule Initialized");
     }
 
     @Override
     public int priority() {
-        return -100;
+        return 0; // after lock
     }
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
         if (state.getActivePiece() != null) return;
 
-        var grid = state.getGrid();
-
-        int spawnX = (grid.getWidth() / 2) - 1;
-        int spawnY = -2;
+        Coord spawnOrigin = state.getDefaultSpawnOrigin();
 
         BlockSetType[] types = BlockSetType.values();
         BlockSetType type = types[random.nextInt(types.length)];
 
         Boxriftle candidate =
-                new BoxriftleFactory(type).createAt(new Coord(spawnX, spawnY));
+                new BoxriftleFactory(type).createAt(spawnOrigin);
 
         candidate.setId(state.generateNextPieceId());
         candidate.setGroupId(state.generateNextGroupId());
 
-        if (!state.isValidPosition(candidate)) {
+        if (!state.canSpawn(candidate)) {
+            state.setGameOver();
             return;
         }
 
         state.setActivePiece(candidate);
     }
+
 }
 
 

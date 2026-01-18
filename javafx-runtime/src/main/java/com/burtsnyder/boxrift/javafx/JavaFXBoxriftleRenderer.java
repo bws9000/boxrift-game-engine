@@ -17,7 +17,13 @@ public record JavaFXBoxriftleRenderer(Group pieceLayer, int blockSize) implement
         var piece = state.getActivePiece();
         if (piece != null) {
             pieceLayer.getChildren().add(
-                    BoxriftleRenderer.render(piece, blockSize)
+                    BoxriftleRenderer.render(
+                            piece,
+                            blockSize,
+                            state.getGrid().getHeight()
+                    )
+
+
             );
         }
     }

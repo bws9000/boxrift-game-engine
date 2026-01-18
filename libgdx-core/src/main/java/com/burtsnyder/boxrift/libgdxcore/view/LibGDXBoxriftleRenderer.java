@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.platform.interfaces.GameRenderer;
-import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
 
 public class LibGDXBoxriftleRenderer implements GameRenderer {
@@ -30,8 +29,8 @@ public class LibGDXBoxriftleRenderer implements GameRenderer {
         for (Block block : piece.getBlocks()) {
             shapeRenderer.setColor(resolveColor(block));
 
-            int worldX = origin.x() + block.getPosition().x();
-            int worldY = origin.y() + block.getPosition().y();
+            int worldX = origin.x() + block.position().x();
+            int worldY = origin.y() + block.position().y();
 
             float x = worldX * blockSize;
             float y = (rows - 1 - worldY) * blockSize;
@@ -45,7 +44,7 @@ public class LibGDXBoxriftleRenderer implements GameRenderer {
 
 
     private Color resolveColor(Block block) {
-        return switch (block.getColor()) {
+        return switch (block.color()) {
             case CYAN   -> Color.CYAN;
             case YELLOW -> Color.YELLOW;
             case PURPLE -> Color.PURPLE;
