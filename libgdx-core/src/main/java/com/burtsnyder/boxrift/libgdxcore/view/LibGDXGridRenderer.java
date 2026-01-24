@@ -33,15 +33,24 @@ public class LibGDXGridRenderer {
             int x = cell.coord().x();
             int y = cell.coord().y();
 
-            Block block = grid.peek(x, y);
+            /*Block block = grid.peek(x, y);
             if (block == null) continue;
-
             shapeRenderer.setColor(resolveColor(block));
-
             float px = x * blockSize;
             float py = (rows - 1 - y) * blockSize;
+            shapeRenderer.rect(px, py, blockSize, blockSize);*/
+            float py = (rows - 1 - y) * blockSize;
+            float px = x * blockSize;
+            Block block = grid.peek(x, y);
+            if (block != null) {
+                if (block.getMetadata().blinking()) {
+                    shapeRenderer.setColor(Color.WHITE); //flash
+                } else {
+                    shapeRenderer.setColor(resolveColor(block));
+                }
+                shapeRenderer.rect(px, py, blockSize, blockSize);
+            }
 
-            shapeRenderer.rect(px, py, blockSize, blockSize);
         }
 
         shapeRenderer.end();

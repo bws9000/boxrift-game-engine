@@ -22,11 +22,11 @@ class FrameSimulationClockTest {
         FrameSimulationClock clock =
                 new FrameSimulationClock(state, scheduler, input);
 
-        // initial bootstrap frame
+        //  bootstrap frame
         FrameState initial = clock.getCurrentFrame();
         assertNotNull(initial);
 
-        // step once
+        // step
         clock.step();
         FrameState first = clock.getCurrentFrame();
 

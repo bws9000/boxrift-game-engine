@@ -1,4 +1,5 @@
 module com.burtsnyder.boxrift.blockengine {
+    requires org.slf4j;
     exports com.burtsnyder.boxrift.blockengine.core.board;
     exports com.burtsnyder.boxrift.blockengine.core.renderer;
     exports com.burtsnyder.boxrift.blockengine.core.engine;
@@ -12,5 +13,7 @@ module com.burtsnyder.boxrift.blockengine {
     exports com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
     exports com.burtsnyder.boxrift.blockengine.core.rules;
     exports com.burtsnyder.boxrift.blockengine.core.rules.base;
+    exports com.burtsnyder.boxrift.blockengine.core.engine.state.mutations;
+    exports com.burtsnyder.boxrift.blockengine.core.engine.state.gates;
 
 }

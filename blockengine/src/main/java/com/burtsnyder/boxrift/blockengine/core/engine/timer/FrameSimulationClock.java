@@ -39,6 +39,7 @@ public final class FrameSimulationClock implements SimulationClock {
 
         scheduler.run(state, frameCtx);
 
+        state.tickMutations();
         frameCtx.reset();
     }
 }

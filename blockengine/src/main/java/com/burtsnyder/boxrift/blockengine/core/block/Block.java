@@ -6,7 +6,8 @@ public record Block(
         Coord position,
         BlockSetType type,
         BlockSetColor color,
-        BlockMetadata blockMetadata) {
+        BlockMetadata metadata
+){
 
     public Block(Coord position, BlockSetType type) {
         this(position, type, BlockStyle.getColorForType(type), new BlockMetadata());
@@ -17,6 +18,11 @@ public record Block(
     }
 
     public BlockMetadata getMetadata() {
-        return blockMetadata;
+        return metadata;
     }
+
+    public Block withMetadata(BlockMetadata metadata) {
+        return new Block(position, type, color, metadata);
+    }
+
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.burtsnyder.boxrift.blockengine.config.BlockConfig;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.engine.EngineRunner;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
@@ -59,14 +60,16 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         scheduler.addRule(new SoftDropRule(manager.getState()));
 
         // SIMULATION
-        scheduler.addRule(new GravityRule(manager.getState()));
+        scheduler.addRule(new GravityRule(manager.getState(), BlockConfig.SCALE.gravityCellsPerSecond));
+
+        //MUTATION
+        scheduler.addRule(new RowClearBlinkingMutationRule(manager.getState()));
 
         // RESOLUTION
         scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
-/*        scheduler.addRule(new FinalizeBeforeSpawnRule(manager.getState()));*/
         scheduler.addRule(new SpawnRule(manager.getState()));
-        scheduler.addRule(new RowClearRule(manager.getState()));
         scheduler.addRule(new CollapseRule(manager.getState()));
+        scheduler.addRule(new RowClearRule(manager.getState()));
 
 
 

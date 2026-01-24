@@ -54,6 +54,7 @@ public class JavaFXGameLoop extends GameLoop {
                 manager.enqueueActions(actions);
                 manager.tick();
 
+                lockedLayer.getChildren().clear();
 
                 JavaFXGridBlockRenderer.render(
                         manager.getState().getGrid(),
@@ -74,10 +75,14 @@ public class JavaFXGameLoop extends GameLoop {
         pieceLayer = new Group();
 
         root.getChildren().addAll(
-                gridLayer,
                 lockedLayer,
-                pieceLayer
+                pieceLayer,
+                gridLayer
         );
+
+        JavaFXGridRenderer.render(manager.getState().getGrid(), gridLayer, blockSize);
+
+
         JavaFXGridRenderer.render(
                 manager.getState().getGrid(),
                 gridLayer,

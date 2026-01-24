@@ -4,20 +4,27 @@ import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.util.Coord;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 public abstract class AbstractGameState {
 
-    protected long tick = 0;
-
+    public long tick = 0;
     private boolean structureDirty = false;
-
-
-
-
-
     protected final Grid grid;
     protected Boxriftle activePiece;
     protected Coord originAtTickStart;
     protected boolean movedThisTick;
+
+
+    //
+    // DIAGNOSTICS (REAd-only, non-behavioral)
+    // for debugging lifecycle stalls (i.e ig... row clear blinking)
+    // never affect gameplay logic
+    //
+    protected final Map<Integer, Long> blinkStartFrame = new HashMap<>();
+    public static final int MAX_BLINK_TICKS = 200;
 
 
     public Grid getGrid() {
@@ -31,7 +38,6 @@ public abstract class AbstractGameState {
         this.grid = grid;
     }
 
-
     public void beginTickInternal(Boxriftle activePiece) {
         tick++;
         movedThisTick = false;
@@ -40,7 +46,6 @@ public abstract class AbstractGameState {
                 ? activePiece.getOrigin()
                 : null;
     }
-
 
     public boolean canMoveActive(int dx, int dy) {
         if (activePiece == null) return false;
@@ -51,14 +56,11 @@ public abstract class AbstractGameState {
         return grid.canPlace(piece);
     }
 
-
-
     public Coord getDefaultSpawnOrigin() {
         int spawnX = (grid.getWidth() / 2) - 1;
         int spawnY = -2;
         return new Coord(spawnX, spawnY);
     }
-
 
 
 
@@ -71,15 +73,9 @@ public abstract class AbstractGameState {
         this.activePiece = piece;
     }
 
-
-
     public void clearActivePiece() {
         this.activePiece = null;
     }
-
-
-
-
 
     public void markStructureDirty() {
         structureDirty = true;
@@ -91,6 +87,21 @@ public abstract class AbstractGameState {
 
     public void clearStructureDirty() {
         structureDirty = false;
+    }
+
+
+
+    // read-only diagnostics
+    public void markBlinkStarted(int row, long frame) {
+        blinkStartFrame.put(row, frame);
+    }
+
+    public void clearBlink(int row) {
+        blinkStartFrame.remove(row);
+    }
+
+    public Optional<Long> getBlinkStartFrame(int row) {
+        return Optional.ofNullable(blinkStartFrame.get(row));
     }
 
 }

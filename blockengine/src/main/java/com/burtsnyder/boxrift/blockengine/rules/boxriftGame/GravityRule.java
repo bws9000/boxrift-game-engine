@@ -4,10 +4,13 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
+
 import java.util.function.LongSupplier;
+
 import static com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext.Inhibition.GRAVITY;
 
 public class GravityRule extends BaseRule {
+
     private final LongSupplier clockNanos;
     private final long intervalNanos;
     private long lastDropAt = 0;
@@ -17,19 +20,21 @@ public class GravityRule extends BaseRule {
         return RuleDomainEnum.SIMULATION;
     }
 
-    public GravityRule(GameState state) {
-        this(state, System::nanoTime, 1000);
+
+    public GravityRule(GameState state, int cellsPerSecond) {
+        this(state, System::nanoTime, cellsPerSecond);
     }
 
-    public GravityRule(GameState state, long gravityMs) {
-        this(state, System::nanoTime, gravityMs);
-    }
-
-
-    public GravityRule(GameState state, LongSupplier clockNanos, long gravityMs) {
+    /**
+     * @param clockNanos time source (for testing / determinism)
+     * @param cellsPerSecond gravity speed in grid space (cells/sec)
+     */
+    public GravityRule(GameState state,
+                       LongSupplier clockNanos,
+                       int cellsPerSecond) {
         super(state);
         this.clockNanos = clockNanos;
-        this.intervalNanos = gravityMs * 1_000_000L;
+        this.intervalNanos = 1_000_000_000L / cellsPerSecond;
     }
 
     @Override
@@ -37,27 +42,29 @@ public class GravityRule extends BaseRule {
         return 50;
     }
 
-
     @Override
     public void apply(GameState state, RuleContext ctx) {
         var piece = state.getActivePiece();
         if (piece == null) return;
 
+        boolean canFall = state.canMoveActive(0, 1);
+
         // observe grounded state
-        if (!state.canMoveActive(0, 1)) {
+        if (!canFall) {
             ctx.currentFrame().setGravityBlocked(true);
         }
 
-        //may still be inhibited
+        // inhibition
         if (ctx.isInhibited(GRAVITY)) return;
 
         long now = clockNanos.getAsLong();
         if (now - lastDropAt < intervalNanos) return;
 
-        if (state.canMoveActive(0, 1)) {
+        if (canFall) {
             state.setActivePiece(piece.move(0, 1));
-            lastDropAt = now;
         }
-    }
 
+        // update timestamp once interval elapses (prevents catch-up bursts)
+        lastDropAt = now;
+    }
 }

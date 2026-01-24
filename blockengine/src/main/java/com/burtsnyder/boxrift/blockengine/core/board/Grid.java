@@ -26,10 +26,6 @@ public class Grid {
         }
     }
 
-    public Long getBlockIdAt(int x, int y) {
-        return cells[x][y].getBlockId();
-    }
-
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 

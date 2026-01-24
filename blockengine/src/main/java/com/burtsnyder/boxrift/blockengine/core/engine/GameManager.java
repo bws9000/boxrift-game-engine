@@ -34,6 +34,7 @@ public class GameManager implements GameEngine {
 
     @Override
     public void tick() {
-        clock.step();
+        state.beginTickInternal(state.getActivePiece()); // game state tick
+        clock.step(); // simulation clock
     }
 }

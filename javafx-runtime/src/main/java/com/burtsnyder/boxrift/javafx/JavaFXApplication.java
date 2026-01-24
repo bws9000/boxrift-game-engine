@@ -30,9 +30,10 @@ public class JavaFXApplication extends Application {
         scheduler.addRule(new RotationRule(manager.getState()));
         scheduler.addRule(new LateralMoveRule(manager.getState()));
         scheduler.addRule(new SoftDropRule(manager.getState()));
-        scheduler.addRule(new GravityRule(manager.getState()));
+        scheduler.addRule(new GravityRule(manager.getState(), BlockConfig.SCALE.gravityCellsPerSecond));
         scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
         scheduler.addRule(new SpawnRule(manager.getState()));
+        scheduler.addRule(new RowClearBlinkingMutationRule(manager.getState()));
         scheduler.addRule(new RowClearRule(manager.getState()));
         scheduler.addRule(new CollapseRule(manager.getState()));
 

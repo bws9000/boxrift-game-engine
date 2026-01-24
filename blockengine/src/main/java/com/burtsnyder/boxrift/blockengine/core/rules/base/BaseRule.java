@@ -13,6 +13,10 @@ public abstract class BaseRule implements Rule {
         this.state = state;
     }
 
+    public boolean isEligible(GameState state, RuleContext ctx) {
+        return true; // default -- always eligible
+    }
+
     @Override
     public abstract void apply(GameState state, RuleContext ctx);
 }

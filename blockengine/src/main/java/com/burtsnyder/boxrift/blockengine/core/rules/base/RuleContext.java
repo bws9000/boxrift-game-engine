@@ -28,8 +28,6 @@ public final class RuleContext {
         return input;
     }
 
-
-
     public void inhibit(Inhibition i) {
         inhibitions.add(i);
     }
@@ -39,27 +37,14 @@ public final class RuleContext {
     }
 
 
-
-
-
     public void markPlayerIntent() {
         playerIntentThisTick = true;
     }
 
-/*    public boolean hasPlayerIntentThisTick() {
-        return playerIntentThisTick;
-    }*/
 
     public void markLateralWhileGrounded() {
         lateralWhileGrounded = true;
     }
-
-/*    public boolean lateralWhileGrounded() {
-        return lateralWhileGrounded;
-    }*/
-
-
-
 
 
     public void beginFrame(FrameState current, FrameState previous) {
@@ -85,6 +70,12 @@ public final class RuleContext {
         lateralWhileGrounded = false;
         input.clear();
     }
+
+    public static RuleContext test() {
+        return new RuleContext(new FrameInput());
+    }
+
+
 }
 
 

@@ -5,6 +5,7 @@ public enum RuleDomainEnum {
     INTENT,
     SIMULATION,
     ENGINE,
-    RESOLUTION
+    RESOLUTION,
+    MUTATION
 }
 

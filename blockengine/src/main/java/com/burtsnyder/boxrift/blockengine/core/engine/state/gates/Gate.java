@@ -7,7 +7,8 @@ package com.burtsnyder.boxrift.blockengine.core.engine.state.gates;
 public interface Gate {
 
     //returns true if the gated action is currently allowed
-    boolean isOpen();
+    //boolean isOpen();
+    boolean tryOpen();
 
      //called when a blocking condition first occurs
     void arm();

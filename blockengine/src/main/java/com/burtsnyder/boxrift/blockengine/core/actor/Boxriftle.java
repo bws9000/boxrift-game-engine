@@ -37,7 +37,7 @@ public class Boxriftle extends Actor {
     }
 
     public BlockSetType getType() { return type; }
-    public Rotation getRotation() { return rotation; }
+    //public Rotation getRotation() { return rotation; }
 
     @Override
     public Boxriftle move(int dx, int dy) {

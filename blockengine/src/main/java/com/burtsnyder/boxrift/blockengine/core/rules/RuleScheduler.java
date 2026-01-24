@@ -30,11 +30,16 @@ public final class RuleScheduler {
         runDomain(RuleDomainEnum.INTENT, state, ctx);
         runDomain(RuleDomainEnum.SIMULATION, state, ctx);
         runDomain(RuleDomainEnum.RESOLUTION, state, ctx);
+        runDomain(RuleDomainEnum.MUTATION, state, ctx);
     }
+
 
     private void runDomain(RuleDomainEnum domain, GameState state, RuleContext ctx) {
         for (BaseRule r : rulesByDomain.get(domain)) {
-            r.apply(state, ctx);
+            if (r.isEligible(state, ctx)) {
+                r.apply(state, ctx);
+            }
+            //r.apply(state,ctx);
         }
     }
 }

@@ -6,6 +6,7 @@ module com.burtsnyder.boxrift.javafx {
     requires javafx.controls;
 
     requires com.burtsnyder.boxrift.blockengine;
+    requires java.desktop;
 }
 
 
