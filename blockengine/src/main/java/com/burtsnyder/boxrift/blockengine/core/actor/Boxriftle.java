@@ -3,7 +3,7 @@ package com.burtsnyder.boxrift.blockengine.core.actor;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 import com.burtsnyder.boxrift.blockengine.core.types.Rotation;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class Boxriftle extends Actor {
     }
 
     public BlockSetType getType() { return type; }
-    //public Rotation getRotation() { return rotation; }
+    public Rotation getRotation() { return rotation; }
 
     @Override
     public Boxriftle move(int dx, int dy) {

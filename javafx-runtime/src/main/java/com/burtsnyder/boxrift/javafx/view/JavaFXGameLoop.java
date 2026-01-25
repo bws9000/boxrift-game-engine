@@ -5,8 +5,10 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameLoop;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
 import com.burtsnyder.boxrift.blockengine.core.input.MinimalInputBus;
 import com.burtsnyder.boxrift.blockengine.core.input.keyboard.KeyboardInputSystem;
+import com.burtsnyder.boxrift.javafx.JavaFXBoxriftleRenderer;
 import com.burtsnyder.boxrift.javafx.JavaFXGridRenderer;
 import com.burtsnyder.boxrift.javafx.block.JavaFXGridBlockRenderer;
+import com.burtsnyder.boxrift.javafx.board.JavaFXGridLinesRenderer;
 import com.burtsnyder.boxrift.javafx.input.JavaFXKeyboardAdapter;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -20,6 +22,8 @@ public class JavaFXGameLoop extends GameLoop {
 
     private Group lockedLayer;
     private Group pieceLayer;
+    private JavaFXBoxriftleRenderer pieceRenderer;
+
 
     public JavaFXGameLoop(int blockSize, int col, int row, String gameName) {
         this(
@@ -57,22 +61,23 @@ public class JavaFXGameLoop extends GameLoop {
                 lockedLayer.getChildren().clear();
 
                 JavaFXGridBlockRenderer.render(
-                        manager.getState().getGrid(),
+                        manager.getState(),
                         lockedLayer,
                         blockSize
                 );
 
-
-                updateView();
+                pieceRenderer.render(manager.getState());
             }
+
         };
         timer.start();
     }
 
+
     public void attach(Stage stage, Group root) {
-        Group gridLayer = new Group();
         lockedLayer = new Group();
         pieceLayer = new Group();
+        Group gridLayer = new Group();
 
         root.getChildren().addAll(
                 lockedLayer,
@@ -80,10 +85,9 @@ public class JavaFXGameLoop extends GameLoop {
                 gridLayer
         );
 
-        JavaFXGridRenderer.render(manager.getState().getGrid(), gridLayer, blockSize);
+        pieceRenderer = new JavaFXBoxriftleRenderer(pieceLayer, blockSize);
 
-
-        JavaFXGridRenderer.render(
+        JavaFXGridLinesRenderer.render(
                 manager.getState().getGrid(),
                 gridLayer,
                 blockSize
@@ -98,8 +102,10 @@ public class JavaFXGameLoop extends GameLoop {
         JavaFXKeyboardAdapter.attachDefault(scene, stage, inputBus);
         stage.setScene(scene);
         stage.show();
-        scene.getRoot().requestFocus();
     }
+
+
+
 
     public Group getPieceLayer() {
         return pieceLayer;

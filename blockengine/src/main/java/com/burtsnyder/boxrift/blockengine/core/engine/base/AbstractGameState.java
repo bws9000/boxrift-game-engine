@@ -1,8 +1,10 @@
 package com.burtsnyder.boxrift.blockengine.core.engine.base;
 
+import com.burtsnyder.boxrift.blockengine.config.BlockScale;
 import com.burtsnyder.boxrift.blockengine.core.actor.Boxriftle;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
+import com.burtsnyder.boxrift.blockengine.core.engine.state.GameMode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,15 +19,22 @@ public abstract class AbstractGameState {
     protected Coord originAtTickStart;
     protected boolean movedThisTick;
 
+    protected final GameMode gameMode;
 
-    //
-    // DIAGNOSTICS (REAd-only, non-behavioral)
-    // for debugging lifecycle stalls (i.e ig... row clear blinking)
-    // never affect gameplay logic
-    //
+    protected final BlockScale blockScale;
+
+    protected AbstractGameState(Grid grid, GameMode mode, BlockScale scale) {
+        this.grid = grid;
+        this.gameMode = mode;
+        this.blockScale = scale;
+    }
+
+    public BlockScale blockScale() {
+        return blockScale;
+    }
+
     protected final Map<Integer, Long> blinkStartFrame = new HashMap<>();
-    public static final int MAX_BLINK_TICKS = 200;
-
+    //public static final int MAX_BLINK_TICKS = 200;
 
     public Grid getGrid() {
         return grid;
@@ -34,8 +43,8 @@ public abstract class AbstractGameState {
     // gravity result for this tick
     protected boolean downwardBlockedThisTick;
 
-    protected AbstractGameState(Grid grid) {
-        this.grid = grid;
+    public GameMode gameMode() {
+        return gameMode;
     }
 
     public void beginTickInternal(Boxriftle activePiece) {
@@ -91,19 +100,21 @@ public abstract class AbstractGameState {
 
 
 
-    // read-only diagnostics
+
+
+
     public void markBlinkStarted(int row, long frame) {
         blinkStartFrame.put(row, frame);
     }
-
-    public void clearBlink(int row) {
+/*    public void clearBlink(int row) {
         blinkStartFrame.remove(row);
-    }
+    }*/
 
     public Optional<Long> getBlinkStartFrame(int row) {
         return Optional.ofNullable(blinkStartFrame.get(row));
     }
 
+    public abstract void tickTransitions();
 }
 
 

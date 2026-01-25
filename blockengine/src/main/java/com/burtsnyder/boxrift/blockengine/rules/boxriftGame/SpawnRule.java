@@ -6,32 +6,37 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
+import com.burtsnyder.boxrift.blockengine.core.rules.transitions.VoidKey;
 
 import java.util.Random;
 
 public class SpawnRule extends BaseRule {
 
+    private static final VoidKey KEY = VoidKey.INSTANCE;
     private final Random random = new Random();
-
-    @Override
-    public RuleDomainEnum domain() {
-        return RuleDomainEnum.RESOLUTION;
-    }
 
     public SpawnRule(GameState state) {
         super(state);
     }
 
     @Override
+    public RuleDomainEnum domain() {
+        return RuleDomainEnum.RESOLUTION;
+    }
+
+    @Override
     public int priority() {
-        return 0; // after lock
+        return 0;
     }
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
-        if (state.getActivePiece() != null) return;
+
+        if (!state.spawnGate().consumeIfReady(KEY)) {
+            return;
+        }
 
         Coord spawnOrigin = state.getDefaultSpawnOrigin();
 
@@ -50,8 +55,9 @@ public class SpawnRule extends BaseRule {
         }
 
         state.setActivePiece(candidate);
-    }
 
+    }
 }
+
 
 

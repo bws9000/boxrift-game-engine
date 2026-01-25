@@ -1,7 +1,7 @@
 package com.burtsnyder.boxrift.blockengine.core.renderer;
 
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 
 import java.util.ArrayList;
 import java.util.List;

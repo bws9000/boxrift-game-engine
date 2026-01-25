@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 public class DesktopLauncher {
 
     public static void main(String[] args) {
-        System.out.println("ILoggerFactory  = " + LoggerFactory.getILoggerFactory().getClass());
         launch();
     }
 

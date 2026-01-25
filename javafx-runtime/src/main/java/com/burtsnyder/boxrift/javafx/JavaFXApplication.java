@@ -1,13 +1,14 @@
 package com.burtsnyder.boxrift.javafx;
 
 import com.burtsnyder.boxrift.blockengine.config.BlockConfig;
+import com.burtsnyder.boxrift.blockengine.core.rules.LockEligibilityRule;
 import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import com.burtsnyder.boxrift.javafx.view.JavaFXGameLoop;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import javafx.scene.Group;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
+
+import java.util.concurrent.locks.Lock;
 
 public class JavaFXApplication extends Application {
 
@@ -26,16 +27,34 @@ public class JavaFXApplication extends Application {
 
         var manager = loop.getManager();
         var scheduler = manager.getScheduler();
+
+        // ENGINE
+        scheduler.addRule(new SpawnEligibilityRule(manager.getState()));
+        scheduler.addRule(new LockEligibilityRule(manager.getState()));
+        scheduler.addRule(new RowClearEligibilityRule(manager.getState()));
+
+        // SENSE
         scheduler.addRule(new GroundSenseRule(manager.getState()));
+
+        // INTENT
         scheduler.addRule(new RotationRule(manager.getState()));
         scheduler.addRule(new LateralMoveRule(manager.getState()));
         scheduler.addRule(new SoftDropRule(manager.getState()));
-        scheduler.addRule(new GravityRule(manager.getState(), BlockConfig.SCALE.gravityCellsPerSecond));
+
+        // SIMULATION
+        scheduler.addRule(new GravityRule(
+                manager.getState(),
+                BlockConfig.SCALE.gravityCellsPerSecond
+        ));
+
+        // MUTATION
+        scheduler.addRule(new RowClearMutationRule(manager.getState()));
+
+        // RESOLUTION
         scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
         scheduler.addRule(new SpawnRule(manager.getState()));
-        scheduler.addRule(new RowClearBlinkingMutationRule(manager.getState()));
-        scheduler.addRule(new RowClearRule(manager.getState()));
         scheduler.addRule(new CollapseRule(manager.getState()));
+
 
 
         loop.setRenderer(

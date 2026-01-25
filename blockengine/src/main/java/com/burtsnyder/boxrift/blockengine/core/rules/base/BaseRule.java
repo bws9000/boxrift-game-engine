@@ -14,7 +14,7 @@ public abstract class BaseRule implements Rule {
     }
 
     public boolean isEligible(GameState state, RuleContext ctx) {
-        return true; // default -- always eligible
+        return true; // default
     }
 
     @Override

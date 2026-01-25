@@ -1,7 +1,7 @@
 package com.burtsnyder.boxrift.blockengine.core.actor;
 
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ public abstract class Actor {
     public void setId(long id) {
         this.id = id;
     }
+    public long getId() { return this.id;}
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;

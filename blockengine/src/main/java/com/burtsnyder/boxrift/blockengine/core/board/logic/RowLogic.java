@@ -1,9 +1,7 @@
 package com.burtsnyder.boxrift.blockengine.core.board.logic;
 
-
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 
-// todont :: move to boxriftGame , easier facade
 public final class RowLogic {
 
     private RowLogic() {}
@@ -25,7 +23,7 @@ public final class RowLogic {
         return true;
     }
 
-/*    public static void markRowPending(Grid grid, int y) {
+    public static void markRowPending(Grid grid, int y) {
         for (int x = 0; x < grid.getWidth(); x++) {
             var block = grid.peek(x, y);
             if (block != null) {
@@ -37,7 +35,7 @@ public final class RowLogic {
                 );
             }
         }
-    }*/
+    }
 
     public static void clearPendingFlags(Grid grid) {
         for (int y = 0; y < grid.getHeight(); y++) {
@@ -52,16 +50,6 @@ public final class RowLogic {
             }
         }
     }
-
-/*    public static boolean anyPendingRows(Grid grid) {
-        for (int y = 0; y < grid.getHeight(); y++) {
-            if (rowAlreadyPending(grid, y)) {
-                return true;
-            }
-        }
-        return false;
-    }*/
-
 
 }
 

@@ -1,6 +1,6 @@
 package com.burtsnyder.boxrift.blockengine.core.renderer;
 
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 
 public record GridRenderCell(
         Coord coord,

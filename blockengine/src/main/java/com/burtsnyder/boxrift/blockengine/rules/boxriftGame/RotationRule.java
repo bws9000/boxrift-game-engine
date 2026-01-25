@@ -4,11 +4,12 @@ package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
-import com.burtsnyder.boxrift.blockengine.core.rules.base.AbstractPlayerIntentMovementRule;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
+import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.PlayerIntentMovementRule;
 
-public class RotationRule extends AbstractPlayerIntentMovementRule {
+public class RotationRule extends BaseRule implements PlayerIntentMovementRule {
 
     @Override
     public RuleDomainEnum domain() {

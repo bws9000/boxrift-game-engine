@@ -1,4 +1,4 @@
-package com.burtsnyder.boxrift.blockengine.util;
+package com.burtsnyder.boxrift.blockengine.core.block;
 
 /**
  * @param x column

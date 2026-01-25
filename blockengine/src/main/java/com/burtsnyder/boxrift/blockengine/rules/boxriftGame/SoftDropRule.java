@@ -2,13 +2,15 @@
 package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
-import com.burtsnyder.boxrift.blockengine.core.rules.base.AbstractPlayerIntentMovementRule;
+import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.input.InputAction;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
+import com.burtsnyder.boxrift.blockengine.core.rules.interfaces.PlayerIntentMovementRule;
+
 import static com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext.Inhibition.GRAVITY;
 
-public class SoftDropRule extends AbstractPlayerIntentMovementRule {
+public class SoftDropRule extends BaseRule implements PlayerIntentMovementRule {
     @Override
     public RuleDomainEnum domain() {
         return RuleDomainEnum.INTENT;

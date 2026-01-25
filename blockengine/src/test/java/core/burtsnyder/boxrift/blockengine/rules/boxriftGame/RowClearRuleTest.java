@@ -6,8 +6,8 @@ import com.burtsnyder.boxrift.blockengine.core.block.Block;
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.input.FrameInput;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
-import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.RowClearRule;
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.RowClearEligibilityRule;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ class RowClearRuleTest {
         var before = snapshotRows(grid);
 
 
-        RowClearRule rule = new RowClearRule(state);
+        RowClearEligibilityRule rule = new RowClearEligibilityRule(state);
         FrameInput input = new FrameInput();
         RuleContext ctx = new RuleContext(input);
 

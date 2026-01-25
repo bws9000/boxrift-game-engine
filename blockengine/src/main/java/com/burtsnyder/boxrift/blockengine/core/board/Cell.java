@@ -17,7 +17,4 @@ public class Cell {
         this.block = block;
     }
 
-/*    public Long getBlockId() {
-        return block != null ? block.getMetadata().pieceId() : null;
-    }*/
 }

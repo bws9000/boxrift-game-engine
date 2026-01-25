@@ -1,6 +1,6 @@
 package com.burtsnyder.boxrift.blockengine.core.actor;
 
-import com.burtsnyder.boxrift.blockengine.util.Coord;
+import com.burtsnyder.boxrift.blockengine.core.block.Coord;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetType;
 import java.util.List;

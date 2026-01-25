@@ -1,34 +1,40 @@
 package com.burtsnyder.boxrift.javafx.block;
 
-import com.burtsnyder.boxrift.blockengine.core.block.Block;
 import com.burtsnyder.boxrift.blockengine.core.block.BlockSetColor;
-import com.burtsnyder.boxrift.blockengine.core.board.Grid;
+import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
+import com.burtsnyder.boxrift.blockengine.core.rules.transitions.policy.BlinkPolicy;
+import com.burtsnyder.boxrift.blockengine.core.rules.transitions.policy.ToggleBlinkPolicy;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 
-/**
- * javaFX renderer must explicitly derive color from Block state every frame.
- *
- * Unlike libGDX (immediate-mode rendering), javaFX uses a retained scene graph.
- * We fully rebuild the grid layer each tick, so visual properties like color
- * must be recomputed from engine state instead of relying on previously drawn nodes.
- *
- * BlockSetColor is an engine-level identity (UI-agnostic). This mapping converts
- * that identity into a javaFX Color without leaking javaFX types into the core engine.
- *
- * ...made this comment when I only tested two renderers javaFX and libGDX
- */
-public class JavaFXGridBlockRenderer {
 
-    public static void render(Grid grid, Group layer, int blockSize) {
+public class JavaFXGridBlockRenderer {
+    private static final BlinkPolicy blinkPolicy = new ToggleBlinkPolicy(6);
+
+
+    public static void render(GameState state, Group layer, int blockSize) {
         layer.getChildren().clear();
 
-        for (int y = 0; y < grid.getHeight(); y++) {
-            for (int x = 0; x < grid.getWidth(); x++) {
-                var block = grid.peek(x, y);
+        int rows = state.getGrid().getHeight();
+
+        for (int y = 0; y < rows; y++) {
+
+            long blinkStart =
+                    state.getBlinkStartFrame(y).orElse(state.tick);
+
+            boolean visible =
+                    blinkPolicy.isVisible(state.tick, blinkStart);
+
+            for (int x = 0; x < state.getGrid().getWidth(); x++) {
+                var block = state.getGrid().peek(x, y);
                 if (block == null) continue;
+
+
+                if (block.getMetadata().pendingClear() && !visible) {
+                    continue;
+                }
 
                 Rectangle r = new Rectangle(
                         x * blockSize,
@@ -37,17 +43,13 @@ public class JavaFXGridBlockRenderer {
                         blockSize
                 );
 
-
-
-                Color fxColor = toFxColor(block.color());
-                r.setFill(fxColor);
-                r.setOpacity(block.getMetadata().isBlink() ? 0.2 : 1.0);
-
-
+                r.setFill(toFxColor(block.color()));
                 layer.getChildren().add(r);
             }
         }
     }
+
+
 
     private static Color toFxColor(BlockSetColor c) {
         return switch (c) {

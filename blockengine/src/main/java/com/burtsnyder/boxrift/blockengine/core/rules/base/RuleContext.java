@@ -17,8 +17,6 @@ public final class RuleContext {
     private FrameState previousFrame;
 
 
-    private boolean playerIntentThisTick = false;
-    private boolean lateralWhileGrounded = false;
 
     public RuleContext(FrameInput input) {
         this.input = input;
@@ -37,14 +35,7 @@ public final class RuleContext {
     }
 
 
-    public void markPlayerIntent() {
-        playerIntentThisTick = true;
-    }
 
-
-    public void markLateralWhileGrounded() {
-        lateralWhileGrounded = true;
-    }
 
 
     public void beginFrame(FrameState current, FrameState previous) {
@@ -66,8 +57,7 @@ public final class RuleContext {
 
     public void reset() {
         inhibitions.clear();
-        playerIntentThisTick = false;
-        lateralWhileGrounded = false;
+
         input.clear();
     }
 

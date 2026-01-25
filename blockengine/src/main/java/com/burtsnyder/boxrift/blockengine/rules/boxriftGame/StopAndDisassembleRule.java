@@ -4,6 +4,7 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
+import com.burtsnyder.boxrift.blockengine.core.rules.transitions.LockKey;
 
 public class StopAndDisassembleRule extends BaseRule {
 
@@ -25,19 +26,18 @@ public class StopAndDisassembleRule extends BaseRule {
 
     @Override
     public void apply(GameState state, RuleContext ctx) {
-        if (state.getActivePiece() == null) return;
+        var piece = state.getActivePiece();
+        if (piece == null) return;
 
-        if (state.canMoveActive(0, 1)) return;
+        var key = LockKey.from(piece);
 
-
-        boolean wasBlocked = ctx.previousFrame().gravityBlocked();
-        boolean isBlocked  = ctx.currentFrame().gravityBlocked();
-
-
-        if (wasBlocked && isBlocked) {
-            state.lockActivePieceAndDisassemble();
+        if (!state.lockGate().consumeIfReady(key)) {
+            return; // lock delay not finished
         }
+
+        state.lockActivePieceAndDisassemble();
     }
+
 
 
 }

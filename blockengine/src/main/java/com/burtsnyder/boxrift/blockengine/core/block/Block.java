@@ -1,7 +1,5 @@
 package com.burtsnyder.boxrift.blockengine.core.block;
 
-import com.burtsnyder.boxrift.blockengine.util.Coord;
-
 public record Block(
         Coord position,
         BlockSetType type,

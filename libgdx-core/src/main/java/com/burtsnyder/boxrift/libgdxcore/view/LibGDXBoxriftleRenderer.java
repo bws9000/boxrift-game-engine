@@ -6,6 +6,8 @@ import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
 import com.burtsnyder.boxrift.blockengine.platform.interfaces.GameRenderer;
 import com.burtsnyder.boxrift.blockengine.core.block.Block;
 
+import static com.burtsnyder.boxrift.libgdxcore.view.LibGDXGridRenderer.getColor;
+
 public class LibGDXBoxriftleRenderer implements GameRenderer {
 
     private final int blockSize;
@@ -44,15 +46,7 @@ public class LibGDXBoxriftleRenderer implements GameRenderer {
 
 
     private Color resolveColor(Block block) {
-        return switch (block.color()) {
-            case CYAN   -> Color.CYAN;
-            case YELLOW -> Color.YELLOW;
-            case PURPLE -> Color.PURPLE;
-            case GREEN  -> Color.GREEN;
-            case ORANGE -> Color.ORANGE;
-            case BLUE   -> Color.BLUE;
-            case RED    -> Color.RED;
-        };
+        return getColor(block);
     }
 
     public void dispose() {

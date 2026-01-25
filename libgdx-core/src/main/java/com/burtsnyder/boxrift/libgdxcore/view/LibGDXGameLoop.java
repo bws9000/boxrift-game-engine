@@ -3,11 +3,11 @@ package com.burtsnyder.boxrift.libgdxcore.view;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.burtsnyder.boxrift.blockengine.config.BlockConfig;
 import com.burtsnyder.boxrift.blockengine.core.board.Grid;
 import com.burtsnyder.boxrift.blockengine.core.engine.EngineRunner;
 import com.burtsnyder.boxrift.blockengine.core.input.InputBus;
+import com.burtsnyder.boxrift.blockengine.core.rules.LockEligibilityRule;
 import com.burtsnyder.boxrift.blockengine.rules.boxriftGame.*;
 import com.burtsnyder.boxrift.libgdxcore.input.LibGDXKeyboardAdapter;
 
@@ -51,6 +51,11 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         var manager = engine.getManager();
         var scheduler = manager.getScheduler();
 
+        //ENGINE
+        scheduler.addRule(new SpawnEligibilityRule(manager.getState()));
+        scheduler.addRule(new LockEligibilityRule(manager.getState()));
+        scheduler.addRule(new RowClearEligibilityRule(manager.getState()));
+
         // SENSE
         scheduler.addRule(new GroundSenseRule(manager.getState()));
 
@@ -63,13 +68,15 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         scheduler.addRule(new GravityRule(manager.getState(), BlockConfig.SCALE.gravityCellsPerSecond));
 
         //MUTATION
-        scheduler.addRule(new RowClearBlinkingMutationRule(manager.getState()));
+        //scheduler.addRule(new RowClearBlinkingMutationRule(manager.getState()));
+        scheduler.addRule(new RowClearMutationRule(manager.getState()));
 
         // RESOLUTION
         scheduler.addRule(new StopAndDisassembleRule(manager.getState()));
         scheduler.addRule(new SpawnRule(manager.getState()));
         scheduler.addRule(new CollapseRule(manager.getState()));
-        scheduler.addRule(new RowClearRule(manager.getState()));
+
+
 
 
 
@@ -87,7 +94,7 @@ public class LibGDXGameLoop extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         engine.step(System.nanoTime());
-        LibGDXGridRenderer.render();
+        LibGDXGridRenderer.render(engine.getManager().getState());
     }
 
     @Override

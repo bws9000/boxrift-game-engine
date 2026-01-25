@@ -1,9 +1,11 @@
 package com.burtsnyder.boxrift.blockengine.rules.boxriftGame;
 
 import com.burtsnyder.boxrift.blockengine.core.engine.GameState;
+import com.burtsnyder.boxrift.blockengine.core.engine.state.gates.TransitionPhase;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.BaseRule;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleContext;
 import com.burtsnyder.boxrift.blockengine.core.rules.base.RuleDomainEnum;
+import com.burtsnyder.boxrift.blockengine.core.rules.transitions.LockKey;
 
 import java.util.function.LongSupplier;
 
@@ -47,14 +49,20 @@ public class GravityRule extends BaseRule {
         var piece = state.getActivePiece();
         if (piece == null) return;
 
+
+        // suspend gravity while lock gate is active
+        // otherwise gravity continues to tick during lock delay...
+        var lockKey = LockKey.from(piece);
+        if (state.lockGate().phase(lockKey) != TransitionPhase.DISARMED) {
+            return;
+        }
+
         boolean canFall = state.canMoveActive(0, 1);
 
-        // observe grounded state
         if (!canFall) {
             ctx.currentFrame().setGravityBlocked(true);
         }
 
-        // inhibition
         if (ctx.isInhibited(GRAVITY)) return;
 
         long now = clockNanos.getAsLong();
@@ -64,7 +72,7 @@ public class GravityRule extends BaseRule {
             state.setActivePiece(piece.move(0, 1));
         }
 
-        // update timestamp once interval elapses (prevents catch-up bursts)
         lastDropAt = now;
     }
+
 }
